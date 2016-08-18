@@ -1,4 +1,4 @@
-package app.com.eliroy.android.wiseinfluence;
+package app.com.eliroy.android.wiseinfluence.Model;
 
 /**
  *
