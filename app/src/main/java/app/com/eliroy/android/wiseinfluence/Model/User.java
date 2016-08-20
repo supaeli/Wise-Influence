@@ -3,8 +3,8 @@ package app.com.eliroy.android.wiseinfluence.Model;
 /**
  *
  *class user describe user of app
- *userName and passwd are set later acccording to expected flow: choice of preferences
- *first and registration as an option later.
+ *for the moment we would not hold any user personal details information
+ *
  */
 public class User {
     private long id = 0;
