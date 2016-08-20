@@ -8,6 +8,8 @@ public class Politician {
     private String mail = "";
     private String facebook = "";
     private String phone = "";
+    
+    /*test*/
 
     //// TODO: 16/08/2016 everything
     
