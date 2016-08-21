@@ -7,14 +7,14 @@ package app.com.eliroy.android.wiseinfluence.Model;
  *
  */
 public class User {
-    private long id = 0;
+    private String id = "";
     private String[] politicalsPrefs = {};
 
 
     //TODO add validation to methods and ctors
 
     public User(){
-        id++;// find how to implement personal incremental id value
+
 
     }
 

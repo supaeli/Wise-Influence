@@ -5,7 +5,7 @@ package app.com.eliroy.android.wiseinfluence.Model;
  * basic implementation: each committee name would symbolize a category name
  */
 public class Category {
-    private long id;
+    private String id;
     private Post[] posts;
     private Template[] templates;
 
