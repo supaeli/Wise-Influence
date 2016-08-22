@@ -1,5 +1,7 @@
 package app.com.eliroy.android.wiseinfluence.Model;
 
+import java.util.UUID;
+
 /**
  *
  *class user describe user of app
@@ -14,7 +16,7 @@ public class User {
     //TODO add validation to methods and ctors
 
     public User(){
-
+        id = UUID.randomUUID().toString();
 
     }
 
