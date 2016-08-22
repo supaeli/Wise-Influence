@@ -1,5 +1,6 @@
 package app.com.eliroy.android.wiseinfluence.Model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -12,18 +13,32 @@ public class Post{
     private String id = "";
     private String topic = "";
     private String content = "";
-    private Date date;
+    private String date;
+    //remove later
+    private String imgUrl;
 
     public Post(){
         id = UUID.randomUUID().toString();
         topic += "נושא לדוגמה מהRSS למשל ועדת הכספים הצביעה על...";
-        date = new Date();
+        date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         //String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date()); - get this line to whereever we need
         // to present date as String.
         content = topic + "";
+        imgUrl = null;
     }
     //TODO getters and setters
+    public String getTopic(){
+        return topic;
+    }
 
+    public String getDate(){
+        return date;
+    }
+
+    //delete later also
+    public String getPicURL(){
+        return imgUrl;
+    }
 
 
 }
