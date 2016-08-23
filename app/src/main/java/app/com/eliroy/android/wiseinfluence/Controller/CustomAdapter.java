@@ -25,20 +25,39 @@ public class CustomAdapter extends ArrayAdapter<Post> {
         myContext = (Activity) context;
         data = objects;
     }
+    static class ViewHolder {
+        TextView rowTitleView;
+        TextView rowDateView;
+        ImageView rowThumbView;
+    }
+
 
     public View getView(int position, View convertView, ViewGroup parent){
-        LayoutInflater myInflater = myContext.getLayoutInflater();
-        View rowView = myInflater.inflate(R.layout.list_item_template, null);
-        ImageView imageView = (ImageView)rowView.findViewById(R.id.elisImage);
+        ViewHolder viewHolder;
+
+        if (convertView == null) {//save findViewById calls
+            LayoutInflater myInflater = myContext.getLayoutInflater();
+            convertView = myInflater.inflate(R.layout.list_item_template, null);
+
+            viewHolder = new ViewHolder();
+            viewHolder.rowThumbView = (ImageView)convertView.findViewById(R.id.elisImage);
+            viewHolder.rowTitleView = (TextView) convertView.findViewById(R.id.elisText);
+            viewHolder.rowDateView = (TextView) convertView.findViewById(R.id.elisDate);
+            convertView.setTag(viewHolder);
+        }
+        else{
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
 
         if(data[position].getPicURL() == null){
-            imageView.setImageResource(R.drawable.bulb_icon);
+            viewHolder.rowThumbView.setImageResource(R.drawable.bulb_icon);
         }
-        TextView rowTitleView = (TextView) rowView.findViewById(R.id.elisText);
-        rowTitleView.setText(data[position].getTopic());
-        TextView rowDateView = (TextView) rowView.findViewById(R.id.elisDate);
-        rowDateView.setText(data[position].getDate());
-        return rowView;
+
+
+        viewHolder.rowTitleView.setText(data[position].getTopic());
+        viewHolder.rowDateView.setText(data[position].getDate());
+
+        return convertView;
     }
 
 }
