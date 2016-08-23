@@ -35,7 +35,7 @@ public class CustomAdapter extends ArrayAdapter<Post> {
     public View getView(int position, View convertView, ViewGroup parent){
         ViewHolder viewHolder;
 
-        if (convertView == null) {//save findViewById calls
+        if (convertView == null) {//conserves findViewById calls
             LayoutInflater myInflater = myContext.getLayoutInflater();
             convertView = myInflater.inflate(R.layout.list_item_template, null);
 

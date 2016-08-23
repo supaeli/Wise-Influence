@@ -7,6 +7,9 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,6 +17,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 import app.com.eliroy.android.wiseinfluence.Model.Post;
 import app.com.eliroy.android.wiseinfluence.R;
@@ -21,13 +27,14 @@ import app.com.eliroy.android.wiseinfluence.R;
 public class PostsFeedActivity extends AppCompatActivity {
 
     private Post[] posts;
+    private enum RSSXMLTag{TITLE,DATE,LINK,CONTENT,IGNORETAG}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_feed);
 
-        generatePseudoData();
+        //generatePseudoData();
         ListView myList = (ListView)findViewById(R.id.feed_list_view);
         CustomAdapter myArrayAdapter = new CustomAdapter(this,R.layout.list_item_template, posts);
         myList.setAdapter(myArrayAdapter);
@@ -90,6 +97,67 @@ public class PostsFeedActivity extends AppCompatActivity {
             return null;
         }
 
+    }
+
+    private class RssDataController extends AsyncTask<String, Integer, ArrayList<Post>>{
+        private RSSXMLTag currTag;
+
+        @Override
+        protected ArrayList<Post> doInBackground(String... params) {
+
+            String urlString = params[0];
+            InputStream inputStream = null;
+            ArrayList<Post> postDataList = new ArrayList<Post>();
+            try{
+                URL url = new URL(urlString);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setReadTimeout(10*1000);
+                connection.setConnectTimeout(10*1000);
+                connection.setRequestMethod("GET");
+                connection.setDoInput(true);
+                connection.connect();
+                int response = connection.getResponseCode();
+                Log.d("debug","The response is: " + response);
+                inputStream = connection.getInputStream();
+
+                //got the data, now parsing
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+                XmlPullParser xpp = factory.newPullParser();
+                xpp.setInput(inputStream, null);
+
+                int eventType = xpp.getEventType();
+                Post pData = null;
+                SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, DD MMM yyyy HH:mm:ss");
+                while (eventType != XmlPullParser.END_DOCUMENT){
+                    if (eventType == XmlPullParser.START_DOCUMENT){
+                        pData = new Post();
+                        currTag = RSSXMLTag.IGNORETAG;
+                    }
+                    else if(xpp.getName().equals("title")){
+                        currTag = RSSXMLTag.TITLE;
+                    }
+                    else if(xpp.getName().equals("link")){
+                        currTag = RSSXMLTag.LINK;
+                    }
+                    else if(xpp.getName().equals("pubDate")){
+                        currTag = RSSXMLTag.DATE;
+                    }
+                    else if (eventType == XmlPullParser.END_TAG){
+                        if (xpp.getName().equals("item")){
+                            //format data here or in adapter - consider revision
+                            Date postDate = dateFormat.parse(pData.getDate());
+                             pData.setDate(dateFormat.format(postDate));
+                            postDataList.add(pData);
+                            }
+                        else{
+                        //continue tomorrow
+
+                        }
+                    }
+                }
+            return null;
+        }
     }
 
 }

@@ -18,12 +18,12 @@ public class Post{
     private String imgUrl;
 
     public Post(){
-        id = UUID.randomUUID().toString();
+       /* id = UUID.randomUUID().toString();
         topic += "נושא לדוגמה מהRSS למשל ועדת הכספים הצביעה על...";
         date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         //String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date()); - get this line to whereever we need
         // to present date as String.
-        content = topic + "";
+        content = topic + "";*/
         imgUrl = null;
     }
     //TODO getters and setters
@@ -33,6 +33,9 @@ public class Post{
 
     public String getDate(){
         return date;
+    }
+    public void setDate(String date){
+        date = date;
     }
 
     //delete later also
