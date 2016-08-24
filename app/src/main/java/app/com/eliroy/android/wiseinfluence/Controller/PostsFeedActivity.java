@@ -130,32 +130,37 @@ public class PostsFeedActivity extends AppCompatActivity {
                 Post pData = null;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, DD MMM yyyy HH:mm:ss");
                 while (eventType != XmlPullParser.END_DOCUMENT){
-                    if (eventType == XmlPullParser.START_DOCUMENT){
-                        pData = new Post();
-                        currTag = RSSXMLTag.IGNORETAG;
-                    }
-                    else if(xpp.getName().equals("title")){
-                        currTag = RSSXMLTag.TITLE;
-                    }
-                    else if(xpp.getName().equals("link")){
-                        currTag = RSSXMLTag.LINK;
-                    }
-                    else if(xpp.getName().equals("pubDate")){
-                        currTag = RSSXMLTag.DATE;
-                    }
-                    else if (eventType == XmlPullParser.END_TAG){
+                    if (eventType == XmlPullParser.START_DOCUMENT){ //empty statement
+                    }else if(eventType == XmlPullParser.START_TAG)
+                        if(xpp.getName().equals("item")) {
+                            pData = new Post();
+                            currTag = RSSXMLTag.IGNORETAG;
+                        }
+                        else if(xpp.getName().equals("title")){//title contains String: "Message
+                            // from [dd month] from some reason
+                            currTag = RSSXMLTag.DATE;
+                        }
+                        else if(xpp.getName().equals("link")){
+                            currTag = RSSXMLTag.LINK;
+                        }
+                        else if(xpp.getName().equals("description")){//// TODO: 24/08/2016 -parse content of
+                            // description to extract title
+                            currTag = RSSXMLTag.DATE;
+                        }
+                    }else if (eventType == XmlPullParser.END_TAG){
                         if (xpp.getName().equals("item")){
                             //format data here or in adapter - consider revision
-                            Date postDate = dateFormat.parse(pData.getDate());
-                             pData.setDate(dateFormat.format(postDate));
+                           /* Date postDate = dateFormat.parse(pData.getDate());
+                             pData.setDate(dateFormat.format(postDate));*/
+                            pData.setDate(xpp.getText());//test later, not sure it behave the same
+                            // as "pData.date = some date" (if date was public variable on Post class)
                             postDataList.add(pData);
-                            }
-                        else{
-                        //continue tomorrow
-
+                        } else{//if its any other close tag than item's ignore
+                        currTag = RSSXMLTag.IGNORETAG;
                         }
+                    }else if(eventType == XmlPullParser.TEXT){
+
                     }
-                }
             return null;
         }
     }
