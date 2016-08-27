@@ -131,23 +131,20 @@ public class PostsFeedActivity extends AppCompatActivity {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, DD MMM yyyy HH:mm:ss");
                 while (eventType != XmlPullParser.END_DOCUMENT){
                     if (eventType == XmlPullParser.START_DOCUMENT){ //empty statement
-                    }else if(eventType == XmlPullParser.START_TAG)
-                        if(xpp.getName().equals("item")) {
+                    }else if(eventType == XmlPullParser.START_TAG) {
+                        if (xpp.getName().equals("item")) {
                             pData = new Post();
                             currTag = RSSXMLTag.IGNORETAG;
-                        }
-                        else if(xpp.getName().equals("title")){//title contains String: "Message
+                        } else if (xpp.getName().equals("title")) {//title contains String: "Message
                             // from [dd month] from some reason
                             currTag = RSSXMLTag.DATE;
-                        }
-                        else if(xpp.getName().equals("link")){
+                        } else if (xpp.getName().equals("link")) {
                             currTag = RSSXMLTag.LINK;
-                        }
-                        else if(xpp.getName().equals("description")){//// TODO: 24/08/2016 -parse content of
+                        } else if (xpp.getName().equals("description")) {//// TODO: 24/08/2016 -parse content of
                             // description to extract title
-                            currTag = RSSXMLTag.DATE;
+                            currTag = RSSXMLTag.TITLE;
                         }
-                    }else if (eventType == XmlPullParser.END_TAG){
+                    } else if (eventType == XmlPullParser.END_TAG){
                         if (xpp.getName().equals("item")){
                             //format data here or in adapter - consider revision
                            /* Date postDate = dateFormat.parse(pData.getDate());
@@ -159,7 +156,19 @@ public class PostsFeedActivity extends AppCompatActivity {
                         currTag = RSSXMLTag.IGNORETAG;
                         }
                     }else if(eventType == XmlPullParser.TEXT){
-
+                        String content = xpp.getText();
+                        content = content.trim();
+                        Log.d("debug",content);
+                        if (pData != null){
+                            switch(currTag){
+                                case TITLE:
+                                    if (content.length() != 0){
+                                        if (pData != null){
+                                            pData.setTopic(content);
+                                        }
+                                    }
+                            }
+                        }
                     }
             return null;
         }
