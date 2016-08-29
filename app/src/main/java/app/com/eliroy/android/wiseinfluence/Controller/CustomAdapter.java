@@ -37,7 +37,7 @@ public class CustomAdapter extends ArrayAdapter<Post> {
 
     public View getView(int position, View convertView, ViewGroup parent){
 
-        //enable debug here
+        //enable debug when otherwise skipped
         android.os.Debug.waitForDebugger();
 
         ViewHolder viewHolder;

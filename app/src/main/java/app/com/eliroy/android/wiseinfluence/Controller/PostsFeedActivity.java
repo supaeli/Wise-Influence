@@ -1,5 +1,6 @@
 package app.com.eliroy.android.wiseinfluence.Controller;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,11 +28,10 @@ import app.com.eliroy.android.wiseinfluence.R;
 public class PostsFeedActivity extends AppCompatActivity {
 
 
-    private static Elements items;
+    private HTTPDownloadTask task;
     private enum RSSXMLTAG{TITLE,DATE,CONTENT,IGNORETAG}
-    CustomAdapter myArrayAdapter;
     //moved posts up here to solve the blank UI - not working
-    private ArrayList<Post> posts;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +39,10 @@ public class PostsFeedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_posts_feed);
 
         //test call the HTTPDownloadTask
-        new HTTPDownloadTask().execute("http://main.knesset.gov.il/Activity/committees/Finance/News"
+        task = new HTTPDownloadTask(this);
+        task.execute("http://main.knesset.gov.il/Activity/committees/Finance/News"
                 + "/_layouts/15/listfeedkns.aspx?List=9559f688-b470-4701-a379-fdd168efea09&View=404e1bcf-"
                 + "c1cc-4911-ba46-aeb4b783f9c3");
-
-        //generatePseudoData(); - to delete later
-        ListView myList = (ListView)findViewById(R.id.feed_list_view);
-        //changed the array of Posts to instancitaion of new ArrayList<Post>
-
-
-
     }
 
     /*private void generatePseudoData(){
@@ -60,22 +54,29 @@ public class PostsFeedActivity extends AppCompatActivity {
             posts[i] = data;
         }
     }*/
-    private class HTTPDownloadTask extends AsyncTask<String,Integer, ArrayList<Post>> {
+    private class HTTPDownloadTask extends AsyncTask<String,Void, ArrayList<Post>> {
 
-        private RSSXMLTAG currTag;
-        private Document innerDoc;
-        private Element description;
+        //private RSSXMLTAG currTag;
+        private Context context = null;
 
+        public HTTPDownloadTask(Context context) {
+            this.context = context;
+        }
 
         @Override
         protected ArrayList<Post> doInBackground(String... params) {
 
             //enable debug here
             android.os.Debug.waitForDebugger();
-            posts = new ArrayList<Post>();
+
+            Elements items = null;
+            ArrayList<Post> posts = new ArrayList<Post>();
             String urlString = params[0];
             InputStream inputStream = null;
             Document doc = null;
+            Document innerDoc = null;
+            Element description = null;
+
             try {
                  doc = Jsoup.connect("http://main.knesset.gov.il/Activity/committees/Finance/" +
                         "News/_layouts/15/listfeedkns.aspx?List=9559f688-b470-4701-a379-fdd168efea09&" +
@@ -85,23 +86,20 @@ public class PostsFeedActivity extends AppCompatActivity {
             }
             catch (IOException e) {
                 e.printStackTrace();
+                return null;//to prevent doc from being null(below)
             }
             //tryout - items was'nt initialized, it is init! now prog crashes somewhere on asynctask
             // , moved the below lines down now it doens't crash on items = doc.get...
-            if(doc != null) {
-                items = doc.getElementsByTag("item");
-            }
+            items = doc.getElementsByTag("item");
 
-            for (int i = 0; i < items.size(); i++){
+            for (Element item : items){
                 //since there is always only 1 decsription tag on item tag:
-                Element item = items.get(i);
-
                 description = item.getElementsByTag("description").first();
                 innerDoc = Jsoup.parse(description.text());
                 Elements divs = innerDoc.body().getElementsByTag("div");
                 //map each div to the relevant TextView on list item
                 //change to add! not get
-                posts.add(i,new Post(divs.get(0).text(),divs.get(1).text(),divs.get(2).text()));
+                posts.add(new Post(divs.get(0).text(),divs.get(1).text(),divs.get(2).text()));
             }
             //check later if this is suitable
             return posts;
@@ -113,14 +111,14 @@ public class PostsFeedActivity extends AppCompatActivity {
         * */
         @Override
         protected void onPostExecute(ArrayList<Post> result) {
-            //added super call to solve blank UI - not wrorking yet
-            super.onPostExecute(result);
             /*for (int i = 0; i < result.size(); i++){
                 posts.add(result.get(i));
             }*/
             //// TODO: 29/08/2016 get rid of prefix english string prior to post's topc,date,content
-            myArrayAdapter.setItemsList(result);
-            myArrayAdapter.notifyDataSetChanged();//update data on adapter
+           CustomAdapter adapter = new CustomAdapter(this.context,R.layout.list_item_template,result);
+            ListView list = (ListView) findViewById(R.id.feed_list_view);
+            list.setAdapter(adapter);
+            //adapter.notifyDataSetChanged();//update data on adapter
         }
     }
 }
