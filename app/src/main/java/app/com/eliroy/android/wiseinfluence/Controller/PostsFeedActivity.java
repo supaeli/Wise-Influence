@@ -27,11 +27,7 @@ import app.com.eliroy.android.wiseinfluence.R;
 
 public class PostsFeedActivity extends AppCompatActivity {
 
-
     private HTTPDownloadTask task;
-    private enum RSSXMLTAG{TITLE,DATE,CONTENT,IGNORETAG}
-    //moved posts up here to solve the blank UI - not working
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +41,8 @@ public class PostsFeedActivity extends AppCompatActivity {
                 + "c1cc-4911-ba46-aeb4b783f9c3");
     }
 
-    /*private void generatePseudoData(){
-        Post data = null;
-        posts = new Post[10];
-
-        for (int i = 0; i < 10; i++){
-            data = new Post();
-            posts[i] = data;
-        }
-    }*/
     private class HTTPDownloadTask extends AsyncTask<String,Void, ArrayList<Post>> {
 
-        //private RSSXMLTAG currTag;
         private Context context = null;
 
         public HTTPDownloadTask(Context context) {
@@ -72,15 +58,14 @@ public class PostsFeedActivity extends AppCompatActivity {
             Elements items = null;
             ArrayList<Post> posts = new ArrayList<Post>();
             String urlString = params[0];
-            InputStream inputStream = null;
             Document doc = null;
             Document innerDoc = null;
             Element description = null;
 
             try {
                  doc = Jsoup.connect("http://main.knesset.gov.il/Activity/committees/Finance/" +
-                        "News/_layouts/15/listfeedkns.aspx?List=9559f688-b470-4701-a379-fdd168efea09&" +
-                        "View=404e1bcf-c1cc-4911-ba46-aeb4b783f9c3").get();
+                         "News/_layouts/15/listfeedkns.aspx?List=9559f688-b470-4701-a379-fdd168efea09&" +
+                         "View=404e1bcf-c1cc-4911-ba46-aeb4b783f9c3").get();
 
 
             }
