@@ -26,6 +26,13 @@ public class Post{
         content = topic + "";*/
         imgUrl = null;
     }
+    public Post(String topic, String date, String content){
+        this.topic = topic;
+        this.content = content;
+        this.date = date;
+        imgUrl = null;
+    }
+
     //TODO getters and setters
     public String getTopic(){
         return topic;

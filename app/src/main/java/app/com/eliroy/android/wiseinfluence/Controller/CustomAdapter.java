@@ -9,6 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import app.com.eliroy.android.wiseinfluence.Model.Post;
 import app.com.eliroy.android.wiseinfluence.R;
 
@@ -18,9 +21,9 @@ import app.com.eliroy.android.wiseinfluence.R;
 public class CustomAdapter extends ArrayAdapter<Post> {
 
     private Activity myContext;
-    private Post[] data;
+    private ArrayList<Post> data;
 
-    public CustomAdapter(Context context, int resource, Post[] objects) {
+    public CustomAdapter(Context context, int resource, ArrayList<Post> objects) {
         super(context, resource, objects);
         myContext = (Activity) context;
         data = objects;
@@ -33,6 +36,10 @@ public class CustomAdapter extends ArrayAdapter<Post> {
 
 
     public View getView(int position, View convertView, ViewGroup parent){
+
+        //enable debug here
+        android.os.Debug.waitForDebugger();
+
         ViewHolder viewHolder;
 
         if (convertView == null) {//conserves findViewById calls
@@ -49,15 +56,19 @@ public class CustomAdapter extends ArrayAdapter<Post> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        if(data[position].getPicURL() == null){
+        if(data.get(position).getPicURL() == null){
             viewHolder.rowThumbView.setImageResource(R.drawable.bulb_icon);
         }
 
 
-        viewHolder.rowTitleView.setText(data[position].getTopic());
-        viewHolder.rowDateView.setText(data[position].getDate());
+        viewHolder.rowTitleView.setText(data.get(position).getTopic());
+        viewHolder.rowDateView.setText(data.get(position).getDate());
 
         return convertView;
+    }
+
+    public void setItemsList(ArrayList<Post> postList){
+        data = postList;
     }
 
 }
