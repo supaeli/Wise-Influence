@@ -115,12 +115,13 @@ public class PostsFeedActivity extends AppCompatActivity {
             list.setOnItemClickListener(
                     new AdapterView.OnItemClickListener(){
                         @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                             Intent intent = new Intent(PostsFeedActivity.this, PostDetailsActivity.class);
                             Bundle extras = new Bundle();
-                            extras.putString("TOPIC",result.get(#position of list cell clicked#).getTopic());
-                            extras.putString("DATE",result.get(#position of list cell clicked#).getDate());
-                            extras.putString("TOPIC",result.get(#position of list cell clicked#).getContent());
+                            extras.putString("TOPIC",result.get(position).getTopic());
+                            extras.putString("DATE",result.get(position).getDate());
+                            extras.putString("CONTENT",result.get(position).getContent());
+                            intent.putExtras(extras);
                             startActivity(intent);
                         }
                     }
