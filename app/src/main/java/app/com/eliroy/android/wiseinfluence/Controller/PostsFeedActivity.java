@@ -1,10 +1,13 @@
 package app.com.eliroy.android.wiseinfluence.Controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -104,11 +107,21 @@ public class PostsFeedActivity extends AppCompatActivity {
             ListView list = (ListView) findViewById(R.id.feed_list_view);
             list.setAdapter(adapter);
             //adapter.notifyDataSetChanged();//update data on adapter
+
+            list.setOnItemClickListener(
+                    new AdapterView.OnItemClickListener(){
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            Intent intent = new Intent(PostsFeedActivity.this, PostDetailsActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+            );
         }
     }
 }
 /*
-    private class RssDataController extends AsyncTask<String, Integer, ArrayList<Post>>{
+    private class RssDataController extends AsyncTask<String, Integeron, ArrayList<Post>>{
 
         @Override
         protected ArrayList<Post> doInBackground(String... params) {
