@@ -53,7 +53,7 @@ public class PostsFeedActivity extends AppCompatActivity {
         protected ArrayList<Post> doInBackground(String... params) {
 
             //enable debug here
-            android.os.Debug.waitForDebugger();
+           // android.os.Debug.waitForDebugger();
 
             Elements items = null;
             ArrayList<Post> posts = new ArrayList<Post>();
