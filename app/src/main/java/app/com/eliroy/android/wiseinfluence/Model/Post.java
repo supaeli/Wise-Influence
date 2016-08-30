@@ -35,6 +35,7 @@ public class Post{
 
     //TODO getters and setters
     public String getTopic(){
+
         return topic;
     }
     public void setTopic(String topic){
@@ -45,14 +46,23 @@ public class Post{
     public String getDate(){
         return date;
     }
+
     public void setDate(String date){
-        date = date;
+
+        this.date = date;
     }
 
     //delete later also
     public String getPicURL(){
+
         return imgUrl;
     }
 
-
+    public String getContent(){
+        return content;
+    }
+    public void setContent(String content){
+        this.content = content;
+    }
+    
 }

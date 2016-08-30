@@ -30,6 +30,10 @@ import app.com.eliroy.android.wiseinfluence.R;
 
 public class PostsFeedActivity extends AppCompatActivity {
 
+    public static final String TOPIC = "com.eliroy.android.wiseinfluence.TOPIC";
+    public static final String DATE = "com.eliroy.android.wiseinfluence.DATE";
+    public static final String CONTENT = "com.eliroy.android.wiseinfluence.CONTENT";
+
     private HTTPDownloadTask task;
 
     @Override
@@ -98,7 +102,7 @@ public class PostsFeedActivity extends AppCompatActivity {
         * this method uses doInBackground's return value
         * */
         @Override
-        protected void onPostExecute(ArrayList<Post> result) {
+        protected void onPostExecute(final ArrayList<Post> result) {
             /*for (int i = 0; i < result.size(); i++){
                 posts.add(result.get(i));
             }*/
@@ -113,6 +117,10 @@ public class PostsFeedActivity extends AppCompatActivity {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             Intent intent = new Intent(PostsFeedActivity.this, PostDetailsActivity.class);
+                            Bundle extras = new Bundle();
+                            extras.putString("TOPIC",result.get(#position of list cell clicked#).getTopic());
+                            extras.putString("DATE",result.get(#position of list cell clicked#).getDate());
+                            extras.putString("TOPIC",result.get(#position of list cell clicked#).getContent());
                             startActivity(intent);
                         }
                     }
