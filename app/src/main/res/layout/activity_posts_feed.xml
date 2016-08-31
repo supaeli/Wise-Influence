@@ -8,7 +8,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context=".Controller.PostsFeedActivity">
+    tools:context=".Controller.PostsFeedActivity"
+    android:background="@color/white">
     <ListView
         android:id="@+id/feed_list_view"
         android:scrollbars="none"

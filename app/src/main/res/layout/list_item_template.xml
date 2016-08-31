@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/elisImage"
@@ -25,8 +26,9 @@
         android:layout_height="wrap_content"
         android:textDirection="rtl"
         android:maxLines="2"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         android:textSize="16sp"
-        android:textColor="@color/colorPrimaryDark"
         android:layout_margin="16dp"/>
     <TextView
         android:id="@+id/elisDate"
@@ -37,7 +39,7 @@
         android:layout_height="wrap_content"
         android:textDirection="rtl"
         android:maxLines="1"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/grey"
         android:layout_marginRight="16dp"
         android:textSize="12sp" />
     </LinearLayout>
