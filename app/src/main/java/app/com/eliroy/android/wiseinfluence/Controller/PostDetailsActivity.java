@@ -19,9 +19,15 @@ public class PostDetailsActivity extends AppCompatActivity {
         TextView date_txt_view = (TextView) findViewById(R.id.date_txt_view);
         TextView content_txt_view = (TextView) findViewById(R.id.content_txt_view);
 
-        topic_txt_view.setText(extras.getString("TOPIC"));
+        //topic_txt_view.setText(extras.getString("TOPIC"));
+        topic_txt_view.setText(
+                extras.getString("TOPIC")
+        );
+
         date_txt_view.setText(extras.getString("DATE"));
         content_txt_view.setText(extras.getString("CONTENT"));
         setTitle(extras.getString("CONTENT"));
     }
+
+
 }

@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/elisImage"
-        android:layout_width="80dp"
+        android:layout_width="0dp"
         android:layout_height="80dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_weight="1"
         android:layout_margin="16dp"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical">
     <TextView
         android:id="@+id/elisText"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:maxLines="3"
+        android:textDirection="rtl"
+        android:maxLines="2"
         android:textSize="16sp"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_margin="16dp"/>
     <TextView
         android:id="@+id/elisDate"
@@ -26,7 +35,11 @@
         android:layout_alignBottom="@id/elisImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textDirection="rtl"
+        android:maxLines="1"
+        android:textColor="@color/colorPrimary"
         android:layout_marginRight="16dp"
         android:textSize="12sp" />
+    </LinearLayout>
     
-</RelativeLayout>
+</LinearLayout>
