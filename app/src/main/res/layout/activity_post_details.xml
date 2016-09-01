@@ -71,6 +71,7 @@
         android:background="@color/colorPrimary"
         android:textColor="@color/white"
         android:layout_weight="1"
+        android:elevation="10dp"
         android:text="לחץ כאן לפניה"/>
 
 
