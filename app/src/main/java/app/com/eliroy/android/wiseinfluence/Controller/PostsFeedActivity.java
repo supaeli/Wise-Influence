@@ -95,6 +95,8 @@ public class PostsFeedActivity extends AppCompatActivity {
                 //String manipulation - consider doing earlier
                 int i = topic.indexOf(":");
                 topic = topic.substring(i+2);
+                i = date.indexOf(":");
+                date = date.substring(i+2);
                 posts.add(new Post(topic, date ,content));
             }
             return posts;
