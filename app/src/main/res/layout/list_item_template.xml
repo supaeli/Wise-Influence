@@ -9,38 +9,40 @@
         android:id="@+id/elisImage"
         android:layout_width="0dp"
         android:layout_height="80dp"
+        android:layout_weight="1"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_weight="1"
+        android:paddingBottom="16dp"
         android:layout_margin="16dp"/>
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3"
+        android:layout_weight="4"
         android:orientation="vertical">
     <TextView
         android:id="@+id/elisText"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_width="240dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textDirection="rtl"
-        android:maxLines="2"
+        android:maxLines="3"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:layout_margin="16dp"/>
+        android:paddingRight="16dp"/>
     <TextView
         android:id="@+id/elisDate"
         android:layout_alignParentRight="true"
         android:layout_below="@id/elisText"
         android:layout_alignBottom="@id/elisImage"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textDirection="rtl"
         android:maxLines="1"
         android:textColor="@color/grey"
-        android:layout_marginRight="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
         android:textSize="12sp" />
     </LinearLayout>
     

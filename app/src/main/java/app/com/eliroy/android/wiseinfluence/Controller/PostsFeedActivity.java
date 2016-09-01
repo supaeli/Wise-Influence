@@ -80,8 +80,7 @@ public class PostsFeedActivity extends AppCompatActivity {
                 e.printStackTrace();
                 return null;//to prevent doc from being null(below)
             }
-            //tryout - items was'nt initialized, it is init! now prog crashes somewhere on asynctask
-            // , moved the below lines down now it doens't crash on items = doc.get...
+
             items = doc.getElementsByTag("item");
 
             for (Element item : items){
@@ -89,18 +88,21 @@ public class PostsFeedActivity extends AppCompatActivity {
                 description = item.getElementsByTag("description").first();
                 innerDoc = Jsoup.parse(description.text());
                 Elements divs = innerDoc.body().getElementsByTag("div");
-                //map each div to the relevant TextView on list item
-                //change to add! not get
-                posts.add(new Post(divs.get(0).text(),divs.get(1).text(),divs.get(2).text()));
+                //map each div content to specific String
+                String topic = divs.get(0).text();
+                String date = divs.get(1).text();
+                String content = divs.get(2).text();
+                //String manipulation - consider doing earlier
+                int i = topic.indexOf(":");
+                topic = topic.substring(i+2);
+                posts.add(new Post(topic, date ,content));
             }
-            //check later if this is suitable
             return posts;
         }
 
         /*
-        *
         * this method uses doInBackground's return value
-        * */
+        */
         @Override
         protected void onPostExecute(final ArrayList<Post> result) {
             /*for (int i = 0; i < result.size(); i++){
@@ -129,79 +131,3 @@ public class PostsFeedActivity extends AppCompatActivity {
         }
     }
 }
-/*
-    private class RssDataController extends AsyncTask<String, Integeron, ArrayList<Post>>{
-
-        @Override
-        protected ArrayList<Post> doInBackground(String... params) {
-
-            String urlString = params[0];
-            InputStream inputStream = null;
-            ArrayList<Post> postDataList = new ArrayList<Post>();
-            try{
-                URL url = new URL(urlString);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setReadTimeout(10*1000);
-                connection.setConnectTimeout(10*1000);
-                connection.setRequestMethod("GET");
-                connection.setDoInput(true);
-                connection.connect();
-                int response = connection.getResponseCode();
-                Log.d("debug","The response is: " + response);
-                inputStream = connection.getInputStream();
-
-                //got the data, now parsing
-                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                factory.setNamespaceAware(true);
-                XmlPullParser xpp = factory.newPullParser();
-                xpp.setInput(inputStream, null);
-
-                int eventType = xpp.getEventType();
-                Post pData = null;
-                SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, DD MMM yyyy HH:mm:ss");
-                while (eventType != XmlPullParser.END_DOCUMENT){
-                    if (eventType == XmlPullParser.START_DOCUMENT){ //empty statement
-                    }else if(eventType == XmlPullParser.START_TAG) {
-                        if (xpp.getName().equals("item")) {
-                            pData = new Post();
-                            currTag = RSSXMLTag.IGNORETAG;
-                        } else if (xpp.getName().equals("title")) {//title contains String: "Message
-                            // from [dd month] from some reason
-                            currTag = RSSXMLTag.DATE;
-                        } else if (xpp.getName().equals("link")) {
-                            currTag = RSSXMLTag.LINK;
-                        } else if (xpp.getName().equals("description")) {//// TODO: 24/08/2016 -parse content of
-                            // description to extract title
-                            currTag = RSSXMLTag.TITLE;
-                        }
-                    } else if (eventType == XmlPullParser.END_TAG){
-                        if (xpp.getName().equals("item")){
-                            //format data here or in adapter - consider revision
-                           /* Date postDate = dateFormat.parse(pData.getDate());
-                             pData.setDate(dateFormat.format(postDate));*/
-                           /* pData.setDate(xpp.getText());//test later, not sure it behave the same
-                            // as "pData.date = some date" (if date was public variable on Post class)
-                            postDataList.add(pData);
-                        } else{//if its any other close tag than item's ignore
-                        currTag = RSSXMLTag.IGNORETAG;
-                        }
-                    }else if(eventType == XmlPullParser.TEXT){
-                        String content = xpp.getText();
-                        content = content.trim();
-                        Log.d("debug",content);
-                        if (pData != null){
-                            switch(currTag){
-                                case TITLE:
-                                    if (content.length() != 0){
-                                        if (pData != null){
-                                            pData.setTopic(content);
-                                        }
-                                    }
-                            }
-                        }
-                    }
-            return null;
-        }
-    }
-
-}*/
