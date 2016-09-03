@@ -87,9 +87,10 @@ public class PostsFeedActivity extends AppCompatActivity {
                 //since there is always only 1 decsription tag on item tag:
                 description = item.getElementsByTag("description").first();
                 //set html on description
-                description.html(description.html().replace("&#58;","")); // remove some
-                description.html(description.html().replace("&#160",""));// unwanted tabs, not all of them
-                innerDoc = Jsoup.parse(description.text());//why text and not html? check..
+                String desc = description.text().replace("<p>&#160;</p>","<p></p>");// unwanted tabs, not all of them
+                desc =  desc.replace("<p style=\"text-align&#58;justify;\">&#160;</p>","<p></p>");
+                desc =  desc.replace("<p style=\"text-align&#58;center;\">&#160;</p>","<p></p>");
+                innerDoc = Jsoup.parse(desc);//why text and not html? check..
                 Elements divs = innerDoc.body().getElementsByTag("div");
                 //=====map each div content to specific String==============//
                 String topic = divs.get(0).text();
