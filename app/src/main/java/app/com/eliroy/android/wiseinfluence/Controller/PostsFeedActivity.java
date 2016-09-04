@@ -1,14 +1,17 @@
 package app.com.eliroy.android.wiseinfluence.Controller;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -35,17 +38,70 @@ public class PostsFeedActivity extends AppCompatActivity {
     public static final String CONTENT = "com.eliroy.android.wiseinfluence.CONTENT";
 
     private HTTPDownloadTask task;
+    ListView listView = null; //consider removing
+
+    String[] comNames = {
+            "כספים",
+            "כלכלה",
+            "חוץ ובטחון",
+            "ועדת הכנסת",
+            "פנים והגנת הסביבה",
+            "עלייה קליטה ותפוצות",
+            "חינוך תרבות וספורט",
+            "עבודה, רווחה ובריאות",
+            "ביקורת המדינה",
+            "מעמד האישה",
+            "מדע וטכנולוגיה"
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_feed);
 
+        //=====================dialog ListView begin =============================================//
+        // TODO: 05/09/2016 consider move from oncreate
+        listView = new ListView(this);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this
+                , R.layout.list_item
+                , R.id.chckd_text_view
+                , comNames);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // TODO: 04/09/2016 what happen when item is clicked (add to temp list?)
+            }
+        });
+        //============================end of dialog ListView=====================================//
+
         //test call the HTTPDownloadTask
         task = new HTTPDownloadTask(this);
         task.execute("http://main.knesset.gov.il/Activity/committees/Finance/News"
                 + "/_layouts/15/listfeedkns.aspx?List=9559f688-b470-4701-a379-fdd168efea09&View=404e1bcf-"
                 + "c1cc-4911-ba46-aeb4b783f9c3");
+    }
+
+    public void showCategoriesListView(View view) {
+        Button apply = (Button) findViewById(R.id.btn);
+        apply.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(PostsFeedActivity.this);
+                builder.setCancelable(true);
+                builder.setPositiveButton("apply", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // TODO: 04/09/2016 add all selected to boolean array
+                    }
+                });
+                builder.setView(listView);
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
     }
 
     private class HTTPDownloadTask extends AsyncTask<String,Void, ArrayList<Post>> {
@@ -118,11 +174,11 @@ public class PostsFeedActivity extends AppCompatActivity {
             }*/
             //// TODO: 29/08/2016 get rid of prefix english string prior to post's topc,date,content
            CustomAdapter adapter = new CustomAdapter(this.context,R.layout.list_item_template,result);
-            ListView list = (ListView) findViewById(R.id.feed_list_view);
-            list.setAdapter(adapter);
+            ListView feedList = (ListView) findViewById(R.id.feed_list_view);
+            feedList.setAdapter(adapter);
             //adapter.notifyDataSetChanged();//update data on adapter
 
-            list.setOnItemClickListener(
+            feedList.setOnItemClickListener(
                     new AdapterView.OnItemClickListener(){
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
