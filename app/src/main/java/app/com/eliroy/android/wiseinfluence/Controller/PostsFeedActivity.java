@@ -15,12 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import org.jsoup.Jsoup;
@@ -28,31 +23,23 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
 
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+
 import app.com.eliroy.android.wiseinfluence.Model.Post;
 import app.com.eliroy.android.wiseinfluence.R;
 
-public class PostsFeedActivity extends AppCompatActivity {
+public class PostsFeedActivity extends FragmentActivity {
 
     public static final String TOPIC = "com.eliroy.android.wiseinfluence.TOPIC";
     public static final String DATE = "com.eliroy.android.wiseinfluence.DATE";
     public static final String CONTENT = "com.eliroy.android.wiseinfluence.CONTENT";
 
     private HTTPDownloadTask task;
-    ListView listView = null; //consider removing
+    //ListView listView = null; //consider removing
+    FragmentManager fm = getSupportFragmentManager();
 
-    String[] comNames = {
-            "כספים",
-            "כלכלה",
-            "חוץ ובטחון",
-            "ועדת הכנסת",
-            "פנים והגנת הסביבה",
-            "עלייה קליטה ותפוצות",
-            "חינוך תרבות וספורט",
-            "עבודה, רווחה ובריאות",
-            "ביקורת המדינה",
-            "מעמד האישה",
-            "מדע וטכנולוגיה"
-    };
+
 
 
     @Override
@@ -60,51 +47,24 @@ public class PostsFeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_feed);
 
-        //=====================dialog ListView begin =============================================//
-        // TODO: 05/09/2016 consider move from oncreate
-        listView = new ListView(this);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this
-                , R.layout.list_item
-                , R.id.chckd_text_view
-                , comNames);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // TODO: 04/09/2016 what happen when item is clicked (add to temp list?)
-            }
-        });
-        //============================end of dialog ListView=====================================//
-
-        //test call the HTTPDownloadTask
+        //call the HTTPDownloadTask
         task = new HTTPDownloadTask(this);
         task.execute("http://main.knesset.gov.il/Activity/committees/Finance/News"
                 + "/_layouts/15/listfeedkns.aspx?List=9559f688-b470-4701-a379-fdd168efea09&View=404e1bcf-"
                 + "c1cc-4911-ba46-aeb4b783f9c3");
     }
 
+    /*
+    * onClick method for category button
+    * */
     public void showCategoriesListView(View view) {
-        Button apply = (Button) findViewById(R.id.btn);
-        apply.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(PostsFeedActivity.this);
-                builder.setCancelable(true);
-                builder.setPositiveButton("apply", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // TODO: 04/09/2016 add all selected to boolean array
-                    }
-                });
-                builder.setView(listView);
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
-        });
-    }
+        AlertDFragment alertDFragment = new AlertDFragment();
+        alertDFragment.show(fm,"Alert Dialog Fragment");
+        }
 
-    private class HTTPDownloadTask extends AsyncTask<String,Void, ArrayList<Post>> {
+
+
+     private class HTTPDownloadTask extends AsyncTask<String,Void, ArrayList<Post>> {
 
         private Context context = null;
 

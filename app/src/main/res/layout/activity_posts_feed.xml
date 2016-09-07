@@ -21,8 +21,9 @@
     <ListView
         android:id="@+id/feed_list_view"
         android:verticalScrollbarPosition="left"
+        android:layout_above="@id/btn"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
     </ListView>
 
