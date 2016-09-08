@@ -1,31 +1,22 @@
 package app.com.eliroy.android.wiseinfluence.Controller;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
-
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-
 import app.com.eliroy.android.wiseinfluence.Model.Post;
 import app.com.eliroy.android.wiseinfluence.R;
 
@@ -36,7 +27,6 @@ public class PostsFeedActivity extends FragmentActivity {
     public static final String CONTENT = "com.eliroy.android.wiseinfluence.CONTENT";
 
     private HTTPDownloadTask task;
-    //ListView listView = null; //consider removing
     FragmentManager fm = getSupportFragmentManager();
 
 
@@ -48,10 +38,13 @@ public class PostsFeedActivity extends FragmentActivity {
         setContentView(R.layout.activity_posts_feed);
 
         //call the HTTPDownloadTask
+        String[] URLS = getResources().getStringArray(R.array.RSS_channels_URL);
+        reloadFeedWithURL(URLS[0]);
+    }
+
+    public void reloadFeedWithURL(String url){
         task = new HTTPDownloadTask(this);
-        task.execute("http://main.knesset.gov.il/Activity/committees/Finance/News"
-                + "/_layouts/15/listfeedkns.aspx?List=9559f688-b470-4701-a379-fdd168efea09&View=404e1bcf-"
-                + "c1cc-4911-ba46-aeb4b783f9c3");
+        task.execute(url);
     }
 
     /*
@@ -61,8 +54,6 @@ public class PostsFeedActivity extends FragmentActivity {
         AlertDFragment alertDFragment = new AlertDFragment();
         alertDFragment.show(fm,"Alert Dialog Fragment");
         }
-
-
 
      private class HTTPDownloadTask extends AsyncTask<String,Void, ArrayList<Post>> {
 
@@ -86,9 +77,7 @@ public class PostsFeedActivity extends FragmentActivity {
             Element description = null;
 
             try {
-                 doc = Jsoup.connect("http://main.knesset.gov.il/Activity/committees/Finance/" +
-                         "News/_layouts/15/listfeedkns.aspx?List=9559f688-b470-4701-a379-fdd168efea09&" +
-                         "View=404e1bcf-c1cc-4911-ba46-aeb4b783f9c3").get();
+                 doc = Jsoup.connect(urlString).get();
 
 
             }
@@ -103,10 +92,10 @@ public class PostsFeedActivity extends FragmentActivity {
                 //since there is always only 1 decsription tag on item tag:
                 description = item.getElementsByTag("description").first();
                 //set html on description
-                String desc = description.text().replace("<p>&#160;</p>","<p></p>");// unwanted tabs, not all of them
+                String desc = description.text().replace("<p>&#160;</p>","<p></p>");// unwanted tabs
                 desc =  desc.replace("<p style=\"text-align&#58;justify;\">&#160;</p>","<p></p>");
                 desc =  desc.replace("<p style=\"text-align&#58;center;\">&#160;</p>","<p></p>");
-                innerDoc = Jsoup.parse(desc);//why text and not html? check..
+                innerDoc = Jsoup.parse(desc);
                 Elements divs = innerDoc.body().getElementsByTag("div");
                 //=====map each div content to specific String==============//
                 String topic = divs.get(0).text();
@@ -129,14 +118,10 @@ public class PostsFeedActivity extends FragmentActivity {
         */
         @Override
         protected void onPostExecute(final ArrayList<Post> result) {
-            /*for (int i = 0; i < result.size(); i++){
-                posts.add(result.get(i));
-            }*/
-            //// TODO: 29/08/2016 get rid of prefix english string prior to post's topc,date,content
            CustomAdapter adapter = new CustomAdapter(this.context,R.layout.list_item_template,result);
             ListView feedList = (ListView) findViewById(R.id.feed_list_view);
             feedList.setAdapter(adapter);
-            //adapter.notifyDataSetChanged();//update data on adapter
+            adapter.notifyDataSetChanged();//update data on adapter
 
             feedList.setOnItemClickListener(
                     new AdapterView.OnItemClickListener(){
