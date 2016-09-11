@@ -4,11 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import org.jsoup.Jsoup;
@@ -51,8 +50,8 @@ public class PostsFeedActivity extends FragmentActivity {
     * onClick method for category button
     * */
     public void showCategoriesListView(View view) {
-        AlertDFragment alertDFragment = new AlertDFragment();
-        alertDFragment.show(fm,"Alert Dialog Fragment");
+        AlertDFragmentCategories alertDFragmentCategories = new AlertDFragmentCategories();
+        alertDFragmentCategories.show(fm,"Alert Dialog Fragment");
         }
 
      private class HTTPDownloadTask extends AsyncTask<String,Void, ArrayList<Post>> {

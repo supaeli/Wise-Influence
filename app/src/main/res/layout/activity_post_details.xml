@@ -55,6 +55,7 @@
         android:textColor="@color/white"
         android:layout_weight="1"
         android:elevation="10dp"
+        android:onClick="claimOption"
         android:text="לחץ כאן לפניה"/>
 
 
