@@ -14,7 +14,6 @@ public class AlertDFragmentCategories extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String[] committeeNames = getResources().getStringArray(R.array.committee_names);
-        String[] claimOptions = getResources().getStringArray(R.array.claim_options);
 
         return new AlertDialog.Builder(getActivity())
                 .setItems(committeeNames, new DialogInterface.OnClickListener() {

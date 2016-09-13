@@ -26,7 +26,7 @@ public class PostsFeedActivity extends FragmentActivity {
     public static final String CONTENT = "com.eliroy.android.wiseinfluence.CONTENT";
 
     private HTTPDownloadTask task;
-    FragmentManager fm = getSupportFragmentManager();
+    FragmentManager fm = getSupportFragmentManager();// is this executed? the fragment parent issue
 
 
 
@@ -36,7 +36,6 @@ public class PostsFeedActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_feed);
 
-        //call the HTTPDownloadTask
         String[] URLS = getResources().getStringArray(R.array.RSS_channels_URL);
         reloadFeedWithURL(URLS[0]);
     }
