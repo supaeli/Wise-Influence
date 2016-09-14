@@ -32,13 +32,13 @@ public class AlertDFragmentClaimOptions extends DialogFragment{
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         PostDetailsActivity parent = (PostDetailsActivity) getActivity();
-                        parent.getJSONWithURL();
+                        parent.getJsonObj();
                         switch (i){
                             case 0:{
 
                                 Intent intent = new Intent(Intent.ACTION_SEND);
                                 intent.setType("text/plain");
-                                intent.putExtra(Intent.EXTRA_EMAIL, emails);//from db
+                                intent.putExtra(Intent.EXTRA_EMAIL, parent.jsonString);
                                 intent.putExtra(Intent.EXTRA_SUBJECT,"בדיקה אילאי");// from db
                                 intent.putExtra(Intent.EXTRA_TEXT,"בדיקה תוכן המייל");// from db
                                 startActivity(parent.createEmailIntentChooser(intent, "שליחת מייל"));

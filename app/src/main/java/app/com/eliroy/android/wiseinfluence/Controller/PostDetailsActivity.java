@@ -17,7 +17,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -29,16 +33,18 @@ public class PostDetailsActivity extends FragmentActivity {
 
     FragmentManager fm = getSupportFragmentManager();
 
-    private static String url = "https://www.dropbox.com/s/1bnnvaamyp62qeo/testdbjson.json?dl=0";
+    private static String url = "https://www.dropbox.com/s/75k38pu2fyetbkd/minidbtest.json?dl=0";
 
     //JSON Node Names
     private static final String TAG_POLITICIAN = "politicians";
     private static final String TAG_NAME = "polName";
     private static final String TAG_EMAIL = "polMail";
 
-    private JsonDownload task;
+    private JSONArray politicians;
 
-    JSONArray politician = null;
+    private jsonDownload task;
+    public String jsonString = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,24 +55,19 @@ public class PostDetailsActivity extends FragmentActivity {
         TextView topic_txt_view = (TextView) findViewById(R.id.topic_txt_view);
         TextView date_txt_view = (TextView) findViewById(R.id.date_txt_view);
         TextView content_txt_view = (TextView) findViewById(R.id.content_txt_view);
-
+        // TODO: 14/09/2016 decide how to use TOPIC on the fragment as claim subject
         topic_txt_view.setText(extras.getString("TOPIC"));
         date_txt_view.setText(extras.getString("DATE"));
         content_txt_view.setText(extras.getString("CONTENT"));
         setTitle(extras.getString("TOPIC"));
 
     }
-    //resolve ambiguity with JSONParser class
-    public void getJSONWithURL(){
-        try {
-            URL url = new URL(this.url);
-            task = new JsonDownload();
-            task.execute();
-        }
-        catch (MalformedURLException e){
-            e.printStackTrace();
-        }
+    //always go to same static json
+    public void getJsonObj(){
+        task = new jsonDownload();
+        task.execute(this.url);
     }
+
     /*
     * onClick for claim button*/
     public void claimOption(View view) {
@@ -96,10 +97,13 @@ public class PostDetailsActivity extends FragmentActivity {
             return Intent.createChooser(source, chooserTitle);
         }
     }
-    private class JsonDownload extends AsyncTask<URL, String, JSONObject>{
+    private class jsonDownload extends AsyncTask<String, String, JSONObject>{
+
+
 
         InputStream inputStream = null;
         String res = "";
+        JSONObject json;
         private ProgressDialog progressDialog = new ProgressDialog(PostDetailsActivity.this);
 
         @Override
@@ -109,40 +113,87 @@ public class PostDetailsActivity extends FragmentActivity {
             progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialogInterface) {
-                    JsonDownload.this.cancel(true);
+                    jsonDownload.this.cancel(true);
                 }
             });
         }
 
-        // TODO: 14/09/2016 this method is parsing to json - revise
         @Override
-        protected JSONObject doInBackground(URL... urls){
-          JSONParser parser = new JSONParser();
-          JSONObject json = parser.getJSONFromUrl(url);
+        protected JSONObject doInBackground(String... urls) {
+
+            android.os.Debug.waitForDebugger();
+
+            try {
+                json = getJson(urls[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return json;
         }
+
         @Override
         protected void onPostExecute(JSONObject json) {
+            // TODO: 14/09/2016 dismiss also when user click soft back button
             progressDialog.dismiss();
+            //extract json relevant contents to the global string variable
             try {
                 // Getting JSON Array
-                politician = json.getJSONArray(TAG_POLITICIAN);
-                JSONObject c = politician.getJSONObject(0);
-                // maybe asyncTask will return jsonobjectarray and on intent "fire" we'll
-                // resolve which element to extract
+                politicians = json.getJSONArray(TAG_POLITICIAN);
+                JSONObject c = politicians.getJSONObject(0);
 
                 // Storing  JSON item in a Variable
                 String name = c.getString(TAG_NAME);
                 String email = c.getString(TAG_EMAIL);
 
-                /*//Set JSON Data in TextView
-                uid.setText(id);
-                name1.setText(name);
-                email1.setText(email);*/
-
+                //Set JSON Data in global string var
+                // TODO: 14/09/2016 iterate throught all emails of politicians on json, later just those with correct criteria
+                jsonString += email;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         }
     }
-}
+
+        private JSONObject getJson(String urlString) throws IOException {
+            JSONObject json = null;
+            InputStream is = null;
+            URL url = null;
+            String jsonStr= null;
+
+            try {
+                url = new URL(urlString);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                is = connection.getInputStream();
+                //create here the json object from input stream
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        is, "UTF-8"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+
+                is.close();
+                jsonStr = sb.toString();
+
+                // try parse the string to a JSON object
+                try {
+                    json = new JSONObject(jsonStr);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } catch (MalformedURLException e){
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                is.close();
+            }
+
+            return json;
+        }
+    }
+
