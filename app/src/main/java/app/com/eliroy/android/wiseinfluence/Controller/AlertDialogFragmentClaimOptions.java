@@ -16,7 +16,7 @@ import java.util.Stack;
 
 import app.com.eliroy.android.wiseinfluence.R;
 
-public class AlertDFragmentClaimOptions extends DialogFragment{
+public class AlertDialogFragmentClaimOptions extends DialogFragment{
 
     String[] emails = {"knizer.nehama@gmail.com, roycn90@gmail.com"}; // dummy data - later from db
 
@@ -32,13 +32,13 @@ public class AlertDFragmentClaimOptions extends DialogFragment{
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         PostDetailsActivity parent = (PostDetailsActivity) getActivity();
-                        parent.getJsonObj();
+                        //parent.getJsonObj();
                         switch (i){
                             case 0:{
 
                                 Intent intent = new Intent(Intent.ACTION_SEND);
                                 intent.setType("text/plain");
-                                intent.putExtra(Intent.EXTRA_EMAIL, parent.jsonString);
+                                //intent.putExtra(Intent.EXTRA_EMAIL, parent.jsonString);
                                 intent.putExtra(Intent.EXTRA_SUBJECT,"בדיקה אילאי");// from db
                                 intent.putExtra(Intent.EXTRA_TEXT,"בדיקה תוכן המייל");// from db
                                 startActivity(parent.createEmailIntentChooser(intent, "שליחת מייל"));
