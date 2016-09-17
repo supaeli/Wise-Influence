@@ -8,7 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import app.com.eliroy.android.wiseinfluence.R;
 
-public class AlertDFragmentCategories extends DialogFragment {
+public class AlertDialogFragmentCategories extends DialogFragment {
 
     @NonNull
     @Override

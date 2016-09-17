@@ -19,7 +19,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -64,8 +63,8 @@ public class PostsFeedActivity extends FragmentActivity {
     * onClick method for category button
     * */
     public void showCategoriesListView(View view) {
-        AlertDFragmentCategories alertDFragmentCategories = new AlertDFragmentCategories();
-        alertDFragmentCategories.show(fragmentManager,"Alert Dialog Fragment");
+        AlertDialogFragmentCategories alertDialogFragmentCategories = new AlertDialogFragmentCategories();
+        alertDialogFragmentCategories.show(fragmentManager,"Alert Dialog Fragment");
         }
 
     //============================ load posts to listview ==============================//
