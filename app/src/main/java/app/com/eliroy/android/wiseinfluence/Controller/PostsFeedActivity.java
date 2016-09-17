@@ -46,7 +46,7 @@ public class PostsFeedActivity extends FragmentActivity {
         setContentView(R.layout.activity_posts_feed);
         String[] URLS = getResources().getStringArray(R.array.RSS_channels_URL);
         reloadFeedWithURL(URLS[0]);
-        //loadPoliticians();
+        loadPoliticians();
     }
 
     public void reloadFeedWithURL(String url){
@@ -154,7 +154,7 @@ public class PostsFeedActivity extends FragmentActivity {
                             extras.putString("TOPIC",result.get(position).getTopic());
                             extras.putString("DATE",result.get(position).getDate());
                             extras.putString("CONTENT",result.get(position).getContent());
-                            intent.putExtra("POLITICIANS",politicians);
+                            extras.putSerializable("POLITICIANS", politicians);
                             intent.putExtras(extras);
                             startActivity(intent);
                         }
