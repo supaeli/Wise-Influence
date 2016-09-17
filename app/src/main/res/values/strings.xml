@@ -15,17 +15,17 @@
     </string-array>
 
     <string-array name="RSS_channels_URL">
-        <item>http://main.knesset.gov.il/Activity/committees/Finance/News/_layouts/15/listfeedkns.aspx?List=9559f688-b470-4701-a379-fdd168efea09&amp;View=404e1bcf-c1cc-4911-ba46-aeb4b783f9c3</item>
-        <item>http://main.knesset.gov.il/Activity/committees/knesset/News/_layouts/listfeedkns.aspx?List=b04bff61-e435-481e-a094-2dac3e2c13b2&amp;View=eb9bf32a-b9dc-4eee-a1e8-8dd49be0820d</item>
-        <item>http://main.knesset.gov.il/Activity/committees/Finance/News/_layouts/15/listfeedkns.aspx?List=9559f688-b470-4701-a379-fdd168efea09&amp;View=404e1bcf-c1cc-4911-ba46-aeb4b783f9c3</item>
-        <item>http://main.knesset.gov.il/Activity/committees/ForeignAffairs/News/_layouts/listfeedkns.aspx?List={67E8D779-FB36-4E89-93AA-7FC6BCEA57EC}&amp;View={0bbdbc42-1ad2-4584-a305-eb317b20a419}</item>
-        <item>http://main.knesset.gov.il/Activity/committees/InternalAffairs/News/_layouts/listfeedkns.aspx?List=ea6d8a95-d5c9-4cce-a874-3683574bf1e1&amp;View=e4e2eb51-c336-42b7-9a7a-3bb8786ee768</item>
-        <item>http://main.knesset.gov.il/Activity/committees/Immigration/News/_layouts/listfeedkns.aspx?List=1cd8668b-24ac-4553-b7bd-90c5a6956c0f&amp;View=8bcd877f-ec33-4ab6-87ab-ca44725b3507</item>
-        <item>http://main.knesset.gov.il/Activity/committees/Education/News/_layouts/listfeedkns.aspx?List={3B47608C-7258-4680-92EC-A1DB2934D543}&amp;View={92ca6bfd-29c6-4c65-815b-7c969177e4a6}</item>
-        <item>http://main.knesset.gov.il/Activity/committees/Labor/News/_layouts/listfeedkns.aspx?List=e3f8beb2-ae86-4701-a7dc-75554db49caa&amp;View=126e2380-fb8d-4dac-9742-839a620f03af</item>
-        <item>http://main.knesset.gov.il/Activity/committees/StateControl/News/_layouts/listfeedKns.aspx?List={D0C43F97-F3AD-4C08-90C2-37D21CF05111}&amp;View={6CF4D4C3-B141-45C6-BB67-22D3E6B02A0E}</item>
-        <item>http://main.knesset.gov.il/Activity/committees/Women/News/_layouts/listfeedkns.aspx?List={01941700-946E-44C8-A106-DCF4AA79E3B8}&amp;View={b9cec788-d6d8-4a7c-8345-e97aa5141f30}</item>
-        <item>http://main.knesset.gov.il/Activity/committees/Science/News/_layouts/listfeedkns.aspx?List=6aa30c1e-2b9c-4dfe-9cf1-7799d6c6a543&amp;View=2c541a0c-9755-49e6-9b92-20c1f83f43c5</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/finance.xml</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/economics.xml</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/knesset.xml</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/security.xml</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/enviorment.xml</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/immigration.xml</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/education.xml</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/labor.xml</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/statecontrol.xml</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/Women.xml</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/Science.xml</item>
     </string-array>
 
     <string-array name="claim_options">
