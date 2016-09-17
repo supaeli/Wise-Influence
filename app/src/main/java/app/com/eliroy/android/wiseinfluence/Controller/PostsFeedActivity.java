@@ -114,9 +114,9 @@ public class PostsFeedActivity extends FragmentActivity {
                 innerDoc = Jsoup.parse(desc);
                 Elements divs = innerDoc.body().getElementsByTag("div");
                 //=====map each div content to specific String==============//
-                String topic = divs.get(0).text();
-                String date = divs.get(1).text();
-                 String content = divs.get(2).text();
+                String topic = divs.size() > 0 ? divs.get(0).text() : "";
+                String date = divs.size() > 1 ? divs.get(1).text() : "";
+                 String content = divs.size() > 2 ? divs.get(2).text() : "";
                 //======String manipulation - consider doing earlier=======//
                 int i = topic.indexOf(":");
                 if(i+2 < topic.length()){
