@@ -9,16 +9,25 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import app.com.eliroy.android.wiseinfluence.Controller.CustomAdapter;
 import app.com.eliroy.android.wiseinfluence.Controller.PostDetailsActivity;
+import app.com.eliroy.android.wiseinfluence.Model.Politician;
 import app.com.eliroy.android.wiseinfluence.Model.Post;
 import app.com.eliroy.android.wiseinfluence.R;
 
@@ -28,10 +37,17 @@ import app.com.eliroy.android.wiseinfluence.R;
 public class ApiClient {
 
     private PostDownloadAsyncTask postTask;
+    private PoliticianDownloadAsyncTask politicianTask;
 
     public void reloadPostWithURL(String url, CallBack handler){
         postTask = new PostDownloadAsyncTask(handler);
         postTask.execute(url);
+    }
+
+    //always go to same static json
+    public void loadPoliticians(CallBack handler){
+        politicianTask = new PoliticianDownloadAsyncTask(handler);
+        politicianTask.execute();
     }
 
     //============================ load posts to listview ==============================//
@@ -111,6 +127,84 @@ public class ApiClient {
                 return;
             }
             this.handler.execute(result);
+        }
+    }
+    //================================= load politicians info ============================//
+
+    private class PoliticianDownloadAsyncTask extends AsyncTask<String, String, ArrayList<Politician>>{
+
+        private String url = "https://dl.dropboxusercontent.com/u/14989930/politicians.json";
+        private CallBack handler = null;
+
+        public PoliticianDownloadAsyncTask(CallBack handler){
+            this.handler = handler;
+        }
+
+
+        @Override
+        protected ArrayList<Politician> doInBackground(String... urls) {
+
+            ArrayList<Politician> result = new ArrayList<Politician>();
+            try {
+                String jsonString = getJson(this.url);
+
+                JSONArray politiciansJSON = new JSONArray(jsonString);
+
+                for (int i = 0; i < politiciansJSON.length(); i++) {
+                    JSONObject politicianJSON = politiciansJSON.getJSONObject(i);
+                    String name = politicianJSON.getString("name");
+                    String id = politicianJSON.getString("id");
+                    String email = politicianJSON.getString("email");
+                    String facebook = politicianJSON.getString("facebook_page");
+                    String phone = politicianJSON.getString("phone");
+                    Politician politician = new Politician(id, name, email, facebook, phone);
+                    result.add(politician);
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Politician> result) {
+            //android.os.Debug.waitForDebugger();
+            this.handler.execute(result);
+        }
+
+        private String getJson(String urlString) throws IOException {
+
+            String jsonString= null;
+
+            try {
+                URL url = new URL(urlString);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                InputStream is = connection.getInputStream();
+                //create here the json object from input stream
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        is, "UTF-8"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+
+
+                jsonString = sb.toString();
+                is.close();
+                // try parse the string to a JSON object
+
+
+            } catch (MalformedURLException e){
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return jsonString;
         }
     }
 }

@@ -33,7 +33,7 @@ public class PostsFeedActivity extends FragmentActivity {
 
     private ApiClient client = new ApiClient();
     private ArrayList<Politician> politicians;
-    private PoliticianDownloadAsyncTask politicianTask;
+
 
 
     FragmentManager fragmentManager = getSupportFragmentManager();// is this executed? the fragment parent issue
@@ -45,7 +45,6 @@ public class PostsFeedActivity extends FragmentActivity {
         String[] URLS = getResources().getStringArray(R.array.RSS_channels_URL);
         reloadFeedWithURL(URLS[0]);
         loadPoliticians();
-
     }
 
     public void reloadFeedWithURL(String url){
@@ -75,13 +74,15 @@ public class PostsFeedActivity extends FragmentActivity {
                 );
             }
         });
-
     }
 
-    //always go to same static json
-    private void loadPoliticians(){
-        politicianTask = new PoliticianDownloadAsyncTask();
-        politicianTask.execute();
+    private void loadPoliticians() {
+        client.loadPoliticians(new CallBack<ArrayList<Politician>>() {
+            @Override
+            public void execute(final ArrayList<Politician> result) {
+                politicians = result;
+            }
+        });
     }
 
     /*
@@ -90,80 +91,5 @@ public class PostsFeedActivity extends FragmentActivity {
     public void showCategoriesListView(View view) {
         AlertDialogFragmentCategories alertDialogFragmentCategories = new AlertDialogFragmentCategories();
         alertDialogFragmentCategories.show(fragmentManager,"Alert Dialog Fragment");
-        }
-
-
-
-    //================================= load politicians info ============================//
-
-    private class PoliticianDownloadAsyncTask extends AsyncTask<String, String, ArrayList<Politician>>{
-
-        private String url = "https://dl.dropboxusercontent.com/u/14989930/politicians.json";
-
-        @Override
-        protected ArrayList<Politician> doInBackground(String... urls) {
-
-            ArrayList<Politician> result = new ArrayList<Politician>();
-            try {
-                String jsonString = getJson(this.url);
-
-                JSONArray politiciansJSON = new JSONArray(jsonString);
-
-                for (int i = 0; i < politiciansJSON.length(); i++) {
-                    JSONObject politicianJSON = politiciansJSON.getJSONObject(i);
-                    String name = politicianJSON.getString("name");
-                    String id = politicianJSON.getString("id");
-                    String email = politicianJSON.getString("email");
-                    String facebook = politicianJSON.getString("facebook_page");
-                    String phone = politicianJSON.getString("phone");
-                    Politician politician = new Politician(id, name, email, facebook, phone);
-                    result.add(politician);
-                }
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Politician> result) {
-            //android.os.Debug.waitForDebugger();
-            politicians = result;
-        }
-
-        private String getJson(String urlString) throws IOException {
-
-            String jsonString= null;
-
-            try {
-                URL url = new URL(urlString);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                InputStream is = connection.getInputStream();
-                //create here the json object from input stream
-                BufferedReader reader = new BufferedReader(new InputStreamReader(
-                        is, "UTF-8"), 8);
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append("\n");
-                }
-
-
-                jsonString = sb.toString();
-                is.close();
-                // try parse the string to a JSON object
-
-
-            } catch (MalformedURLException e){
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return jsonString;
-        }
     }
 }
