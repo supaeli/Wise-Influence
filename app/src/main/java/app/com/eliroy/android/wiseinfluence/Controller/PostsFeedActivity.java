@@ -68,6 +68,8 @@ public class PostsFeedActivity extends FragmentActivity {
         alertDFragmentCategories.show(fragmentManager,"Alert Dialog Fragment");
         }
 
+    //============================ load posts to listview ==============================//
+
      private class PostDownloadAsyncTask extends AsyncTask<String,Void, ArrayList<Post>> {
 
         private Context context = null;
@@ -122,19 +124,25 @@ public class PostsFeedActivity extends FragmentActivity {
                  String content = divs.get(2).text();
                 //======String manipulation - consider doing earlier=======//
                 int i = topic.indexOf(":");
-                topic = topic.substring(i+2);
+                if(i+2 < topic.length()){
+                    topic = topic.substring(i+2);
+                }
+
                 i = date.indexOf(":");
-                date = date.substring(i+2);
+                if(i+2 < date.length()){
+                    date = date.substring(i+2);
+                }
+
                 i = content.indexOf(":");
-                content = content.substring(i+2);
+                if(i+2 < content.length()){
+                    content = content.substring(i+2);
+                }
+
                 posts.add(new Post(topic, date ,content));
             }
             return posts;
         }
 
-        /*
-        * this method uses doInBackground's return value
-        */
         @Override
         protected void onPostExecute(final ArrayList<Post> result) {
            CustomAdapter adapter = new CustomAdapter(this.context,R.layout.list_item_template,result);
@@ -159,6 +167,9 @@ public class PostsFeedActivity extends FragmentActivity {
             );
         }
     }
+
+    //================================= load politicians info ============================//
+
     private class PoliticianDownloadAsyncTask extends AsyncTask<String, String, ArrayList<Politician>>{
 
         private String url = "https://dl.dropboxusercontent.com/u/14989930/politicians.json";
