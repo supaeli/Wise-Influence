@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -20,22 +19,22 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import org.jsoup.nodes.Element;
+
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
 import app.com.eliroy.android.wiseinfluence.Model.Politician;
 import app.com.eliroy.android.wiseinfluence.Model.Post;
 import app.com.eliroy.android.wiseinfluence.R;
+import app.com.eliroy.android.wiseinfluence.Support.Network.ApiClient;
+import app.com.eliroy.android.wiseinfluence.Support.Network.CallBack;
 
 public class PostsFeedActivity extends FragmentActivity {
 
+    private ApiClient client = new ApiClient();
     private ArrayList<Politician> politicians;
     private PoliticianDownloadAsyncTask politicianTask;
-    private PostDownloadAsyncTask postTask;
+
 
     FragmentManager fragmentManager = getSupportFragmentManager();// is this executed? the fragment parent issue
 
@@ -46,11 +45,37 @@ public class PostsFeedActivity extends FragmentActivity {
         String[] URLS = getResources().getStringArray(R.array.RSS_channels_URL);
         reloadFeedWithURL(URLS[0]);
         loadPoliticians();
+
     }
 
     public void reloadFeedWithURL(String url){
-        postTask = new PostDownloadAsyncTask(this);
-        postTask.execute(url);
+        final Context context = this;
+        client.reloadPostWithURL(url, new CallBack<ArrayList<Post>>() {
+            @Override
+            public void execute(final ArrayList<Post> result) {
+                CustomAdapter adapter = new CustomAdapter(context, R.layout.list_item_template,result);
+                ListView feedList = (ListView) findViewById(R.id.feed_list_view);
+                feedList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();//update data on adapter
+
+                feedList.setOnItemClickListener(
+                        new AdapterView.OnItemClickListener(){
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                                Intent intent = new Intent(PostsFeedActivity.this, PostDetailsActivity.class);
+                                Bundle extras = new Bundle();
+                                extras.putString("TOPIC",result.get(position).getTopic());
+                                extras.putString("DATE",result.get(position).getDate());
+                                extras.putString("CONTENT",result.get(position).getContent());
+                                extras.putSerializable("POLITICIANS", politicians);
+                                intent.putExtras(extras);
+                                startActivity(intent);
+                            }
+                        }
+                );
+            }
+        });
+
     }
 
     //always go to same static json
@@ -67,104 +92,7 @@ public class PostsFeedActivity extends FragmentActivity {
         alertDialogFragmentCategories.show(fragmentManager,"Alert Dialog Fragment");
         }
 
-    //============================ load posts to listview ==============================//
 
-     private class PostDownloadAsyncTask extends AsyncTask<String,Void, ArrayList<Post>> {
-
-        private Context context = null;
-
-        public PostDownloadAsyncTask(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        protected ArrayList<Post> doInBackground(String... params) {
-
-            //enable debug here
-           // android.os.Debug.waitForDebugger();
-
-            Elements items = null;
-            ArrayList<Post> posts = new ArrayList<Post>();
-            String urlString = params[0];
-            Document doc = null;
-            Document innerDoc = null;
-            Element description = null;
-
-            try {
-
-                 doc = Jsoup.connect(urlString).get();
-
-
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-                return null;//to prevent doc from being null(below)
-            }
-
-            items = doc.getElementsByTag("item");
-
-            for (Element item : items){
-                //since there is always only 1 decsription tag on item tag:
-                description = item.getElementsByTag("description").first();
-                //set html on description
-                String desc = description.text().replace("<p>&#160;</p>","<p></p>");// unwanted tabs
-                desc =  desc.replace("<p style=\"text-align&#58;justify;\">&#160;</p>","<p></p>");
-                desc =  desc.replace("<p style=\"text-align&#58;center;\">&#160;</p>","<p></p>");
-                innerDoc = Jsoup.parse(desc);
-                Elements divs = innerDoc.body().getElementsByTag("div");
-                //=====map each div content to specific String==============//
-                String topic = divs.size() > 0 ? divs.get(0).text() : "";
-                String date = divs.size() > 1 ? divs.get(1).text() : "";
-                 String content = divs.size() > 2 ? divs.get(2).text() : "";
-                //======String manipulation - consider doing earlier=======//
-                int i = topic.indexOf(":");
-                if(i+2 < topic.length()){
-                    topic = topic.substring(i+2);
-                }
-
-                i = date.indexOf(":");
-                if(i+2 < date.length()){
-                    date = date.substring(i+2);
-                }
-
-                i = content.indexOf(":");
-                if(i+2 < content.length()){
-                    content = content.substring(i+2);
-                }
-
-                posts.add(new Post(topic, date ,content));
-            }
-            return posts;
-        }
-
-        @Override
-        protected void onPostExecute(final ArrayList<Post> result) {
-           if (result == null){
-               Log.e("DEBUG","result is null");
-               return;
-           }
-            CustomAdapter adapter = new CustomAdapter(this.context,R.layout.list_item_template,result);
-            ListView feedList = (ListView) findViewById(R.id.feed_list_view);
-            feedList.setAdapter(adapter);
-            adapter.notifyDataSetChanged();//update data on adapter
-
-            feedList.setOnItemClickListener(
-                    new AdapterView.OnItemClickListener(){
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                            Intent intent = new Intent(PostsFeedActivity.this, PostDetailsActivity.class);
-                            Bundle extras = new Bundle();
-                            extras.putString("TOPIC",result.get(position).getTopic());
-                            extras.putString("DATE",result.get(position).getDate());
-                            extras.putString("CONTENT",result.get(position).getContent());
-                            extras.putSerializable("POLITICIANS", politicians);
-                            intent.putExtras(extras);
-                            startActivity(intent);
-                        }
-                    }
-            );
-        }
-    }
 
     //================================= load politicians info ============================//
 
