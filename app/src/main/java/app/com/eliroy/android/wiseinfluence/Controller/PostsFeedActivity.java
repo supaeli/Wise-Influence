@@ -140,7 +140,11 @@ public class PostsFeedActivity extends FragmentActivity {
 
         @Override
         protected void onPostExecute(final ArrayList<Post> result) {
-           CustomAdapter adapter = new CustomAdapter(this.context,R.layout.list_item_template,result);
+           if (result == null){
+               Log.e("DEBUG","result is null");
+               return;
+           }
+            CustomAdapter adapter = new CustomAdapter(this.context,R.layout.list_item_template,result);
             ListView feedList = (ListView) findViewById(R.id.feed_list_view);
             feedList.setAdapter(adapter);
             adapter.notifyDataSetChanged();//update data on adapter
