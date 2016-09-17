@@ -93,12 +93,7 @@ public class PostsFeedActivity extends FragmentActivity {
 
             try {
 
-                 doc = Jsoup.connect(urlString)
-                         .header("Content-Type","text/html; charset=utf-8")
-                         .referrer("http://main.knesset.gov.il/Activity/committees/Finance/News/_layouts/15/listfeedkns.aspx?List=9559f688-b470-4701-a379-fdd168efea09&View=404e1bcf-c1cc-4911-ba46-aeb4b783f9c3")
-                         .header("Cookie","GCLB=CJSDvP3ckcP5MQ; rbzid=SmRVMlNEWS9xQ2xPNDRmK2hYaXhkWU41dTViQXFzc09SMEtmYjJxR3VncitFcmpXYklXR3YyVDhabm1FWVU1bm1Cblh4M3JQT2tKVmdQMDY4b2ZKN090SzZ4RzljMXlCWk5teTZWN25tQ3hIUmd6UElsdTg5N2JaYlBDek1qK1diY3FIRHRHUUVmdVg3Tk01NW5mWjN4MEZzbmVVSFNrd2gxTGRnZmNkYVdhQXVYWVY2ampJM0pwNzFzay9QRTlsanhoNGdGeVl3Nmtpb0M3VFBjOXlSYVZxZTd4bVIxbUdBbU1DTW9kb1hHbz1AQEAwQEBALTIyMjIyMjIyMDIw")
-                         .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36")
-                         .get();
+                 doc = Jsoup.connect(urlString).get();
 
 
             }
