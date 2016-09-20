@@ -42,9 +42,7 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
                                 intent.setAction(Intent.ACTION_SENDTO);
                                 intent.setType("message/rfc822");
                                 intent.setData(Uri.parse("mailto:"));
-                                intent.putExtra(intent.EXTRA_EMAIL,parent
-                                        .politicians.get(0)
-                                        .getEmail());
+                                intent.putExtra(intent.EXTRA_EMAIL, new String[] {mail});
                                 intent.putExtra(intent.EXTRA_SUBJECT,"test subject");
                                 intent.putExtra(intent.EXTRA_TEXT,"test letter content");
 
