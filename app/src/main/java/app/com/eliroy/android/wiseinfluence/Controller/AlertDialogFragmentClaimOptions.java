@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.List;
 import java.util.Stack;
@@ -32,16 +33,35 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         PostDetailsActivity parent = (PostDetailsActivity) getActivity();
-                        //parent.getJsonObj();
+                        String mail = parent.politicians.size() > 0 ? parent
+                                .politicians.get(0).getEmail() : "";
                         switch (i){
                             case 0:{
+                                Log.v("DEBUG",mail);
+                                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                                intent.setAction(Intent.ACTION_SENDTO);
+                                intent.setType("message/rfc822");
+                                intent.setData(Uri.parse("mailto:"));
+                                intent.putExtra(intent.EXTRA_EMAIL,parent
+                                        .politicians.get(0)
+                                        .getEmail());
+                                intent.putExtra(intent.EXTRA_SUBJECT,"test subject");
+                                intent.putExtra(intent.EXTRA_TEXT,"test letter content");
 
-                                Intent intent = new Intent(Intent.ACTION_SEND);
-                                intent.setType("text/plain");
-                                //intent.putExtra(Intent.EXTRA_EMAIL, parent.jsonString);
-                                intent.putExtra(Intent.EXTRA_SUBJECT,"בדיקה אילאי");// from db
-                                intent.putExtra(Intent.EXTRA_TEXT,"בדיקה תוכן המייל");// from db
+                                try {
+                                    startActivity(intent);
+                                } catch(Exception e){
+                                    e.printStackTrace();
+                                }
+                                //========= prepare uri to pass email data =========//
+                                /*
+                                String uriText = "mailto:" + Uri.encode(mail) +
+                                        "?subject=" + Uri.encode("subject") +
+                                        "&body=" + Uri.encode("body");
+                                Uri uri = Uri.parse(uriText);
+                                intent.setData(uri);
                                 startActivity(parent.createEmailIntentChooser(intent, "שליחת מייל"));
+                                */
                             }
                             case 1:{
                                 // TODO: 09/09/2016 call facebook intent creator

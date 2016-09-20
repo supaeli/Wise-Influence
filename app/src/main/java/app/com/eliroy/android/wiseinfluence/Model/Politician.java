@@ -21,4 +21,23 @@ public class Politician implements Serializable{
         this.phone = phone;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
 }
