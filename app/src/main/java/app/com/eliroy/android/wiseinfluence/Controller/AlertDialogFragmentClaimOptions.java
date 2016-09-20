@@ -1,5 +1,6 @@
 package app.com.eliroy.android.wiseinfluence.Controller;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.Stack;
@@ -36,20 +38,24 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
                         String mail = parent.politicians.size() > 0 ? parent
                                 .politicians.get(0).getEmail() : "";
                         switch (i){
-                            case 0:{
-                                Log.v("DEBUG",mail);
+                            case 0: {
                                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                                 intent.setAction(Intent.ACTION_SENDTO);
                                 intent.setType("message/rfc822");
                                 intent.setData(Uri.parse("mailto:"));
-                                intent.putExtra(intent.EXTRA_EMAIL, new String[] {mail});
-                                intent.putExtra(intent.EXTRA_SUBJECT,"test subject");
-                                intent.putExtra(intent.EXTRA_TEXT,"test letter content");
+                                intent.putExtra(intent.EXTRA_EMAIL, new String[]{mail});
+                                intent.putExtra(intent.EXTRA_SUBJECT, "test subject");
+                                intent.putExtra(intent.EXTRA_TEXT, "test letter content");
 
                                 try {
                                     startActivity(intent);
-                                } catch(Exception e){
+                                } catch(ActivityNotFoundException e){
                                     e.printStackTrace();
+                                    Log.i("INFO", "No email client found");
+                                    Toast.makeText(parent.getApplicationContext(),
+                                            "No email app found, lease install and try again",
+                                            Toast.LENGTH_LONG)
+                                            .show();
                                 }
                                 //========= prepare uri to pass email data =========//
                                 /*
