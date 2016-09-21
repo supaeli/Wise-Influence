@@ -21,10 +21,7 @@ import app.com.eliroy.android.wiseinfluence.R;
 
 public class AlertDialogFragmentClaimOptions extends DialogFragment{
 
-    String[] emails = {"knizer.nehama@gmail.com, roycn90@gmail.com"}; // dummy data - later from db
 
-
-    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String[] claimOptions = getResources().getStringArray(R.array.claim_options);
@@ -37,18 +34,21 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
                         PostDetailsActivity parent = (PostDetailsActivity) getActivity();
                         String mail = parent.politicians.size() > 0 ? parent
                                 .politicians.get(0).getEmail() : "";
+                        Bundle postDetailsActivityIntentBundle = parent.getIntentBundle();
+                        String subject  = postDetailsActivityIntentBundle.getString("TOPIC");
                         switch (i){
                             case 0: {
+                                //========= according to SO question change to Uri ===========//
                                 Intent intent = new Intent(Intent.ACTION_SENDTO);
-                                intent.setAction(Intent.ACTION_SENDTO);
-                                intent.setType("message/rfc822");
-                                intent.setData(Uri.parse("mailto:"));
-                                intent.putExtra(intent.EXTRA_EMAIL, new String[]{mail});
-                                intent.putExtra(intent.EXTRA_SUBJECT, "test subject");
-                                intent.putExtra(intent.EXTRA_TEXT, "test letter content");
+                                String uriText = "mailto:" + Uri.encode(mail) +
+                                        "?subject=" + Uri.encode("test subject") +
+                                        "&body=" + Uri.encode("test content");
+                                Uri uri = Uri.parse(uriText);
+                                intent.setData(uri);
+                                startActivity(Intent.createChooser(intent,"send mail"));
 
                                 try {
-                                    startActivity(intent);
+                                    startActivity(Intent.createChooser(intent,"send mail"));
                                 } catch(ActivityNotFoundException e){
                                     e.printStackTrace();
                                     Log.i("INFO", "No email client found");
@@ -57,15 +57,6 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
                                             Toast.LENGTH_LONG)
                                             .show();
                                 }
-                                //========= prepare uri to pass email data =========//
-                                /*
-                                String uriText = "mailto:" + Uri.encode(mail) +
-                                        "?subject=" + Uri.encode("subject") +
-                                        "&body=" + Uri.encode("body");
-                                Uri uri = Uri.parse(uriText);
-                                intent.setData(uri);
-                                startActivity(parent.createEmailIntentChooser(intent, "שליחת מייל"));
-                                */
                             }
                             case 1:{
                                 // TODO: 09/09/2016 call facebook intent creator
