@@ -127,7 +127,7 @@ public class ApiClient {
                 Log.e("DEBUG","result is null");
                 return;
             }
-            this.handler.execute(result);
+            this.handler.handle(result);
         }
     }
     //================================= load politicians info ============================//
@@ -172,7 +172,7 @@ public class ApiClient {
         @Override
         protected void onPostExecute(ArrayList<Politician> result) {
             //android.os.Debug.waitForDebugger();
-            this.handler.execute(result);
+            this.handler.handle(result);
         }
 
         private String getJson(String urlString) throws IOException {

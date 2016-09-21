@@ -36,10 +36,8 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
                                 .politicians.get(0).getEmail() : "";
                         Bundle postDetailsActivityIntentBundle = parent.getIntentBundle();
                         String topic = "פניה בנושא " + postDetailsActivityIntentBundle.getString("TOPIC");
-                        String subject  = postDetailsActivityIntentBundle.getString("TOPIC");
                         switch (i){
                             case 0: {
-                                //========= according to SO question change to Uri ===========//
                                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                                 String uriText = "mailto:" + Uri.encode(mail) +
                                         "?subject=" + Uri.encode(topic) +

@@ -1,5 +1,6 @@
 package app.com.eliroy.android.wiseinfluence.Model;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -9,7 +10,7 @@ import app.com.eliroy.android.wiseinfluence.Model.Politician;
 /**
  * describes the posts in the posts list activity each represents a story about committee activity
  */
-public class Post{
+public class Post implements Serializable{
     private String topic = "";
     private String content = "";
     private String date;

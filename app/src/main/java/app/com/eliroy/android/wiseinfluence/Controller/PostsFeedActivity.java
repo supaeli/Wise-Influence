@@ -49,9 +49,9 @@ public class PostsFeedActivity extends FragmentActivity {
 
     public void reloadFeedWithURL(String url){
         final Context context = this;
-        client.reloadPostWithURL(url, new CallBack<ArrayList<Post>>() {
+        CallBack<ArrayList<Post>> handler = new CallBack<ArrayList<Post>>() {
             @Override
-            public void execute(final ArrayList<Post> result) {
+            public void handle(final ArrayList<Post> result) {
                 CustomAdapter adapter = new CustomAdapter(context, R.layout.list_item_template,result);
                 ListView feedList = (ListView) findViewById(R.id.feed_list_view);
                 feedList.setAdapter(adapter);
@@ -63,23 +63,22 @@ public class PostsFeedActivity extends FragmentActivity {
                             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                                 Intent intent = new Intent(PostsFeedActivity.this, PostDetailsActivity.class);
                                 Bundle extras = new Bundle();
-                                extras.putString("TOPIC",result.get(position).getTopic());
-                                extras.putString("DATE",result.get(position).getDate());
-                                extras.putString("CONTENT",result.get(position).getContent());
                                 extras.putSerializable("POLITICIANS", politicians);
+                                extras.putSerializable("POST", result.get(position));
                                 intent.putExtras(extras);
                                 startActivity(intent);
                             }
                         }
                 );
             }
-        });
+        };
+        client.reloadPostWithURL(url, handler);
     }
 
     private void loadPoliticians() {
         client.loadPoliticians(new CallBack<ArrayList<Politician>>() {
             @Override
-            public void execute(final ArrayList<Politician> result) {
+            public void handle(final ArrayList<Politician> result) {
                 politicians = result;
             }
         });
