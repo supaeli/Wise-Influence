@@ -34,8 +34,7 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
                         PostDetailsActivity parent = (PostDetailsActivity) getActivity();
                         String mail = parent.politicians.size() > 0 ? parent
                                 .politicians.get(0).getEmail() : "";
-                        Bundle postDetailsActivityIntentBundle = parent.getIntentBundle();
-                        String topic = "פניה בנושא " + postDetailsActivityIntentBundle.getString("TOPIC");
+                        String topic = parent.post.getTopic();
                         switch (i){
                             case 0: {
                                 Intent intent = new Intent(Intent.ACTION_SENDTO);

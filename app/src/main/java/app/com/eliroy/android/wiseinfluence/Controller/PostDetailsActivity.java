@@ -31,7 +31,6 @@ public class PostDetailsActivity extends FragmentActivity {
         setContentView(R.layout.activity_post_details);
         // TODO: 18/09/2016 take care of unchecked cast
         politicians = (ArrayList<Politician>)getIntent().getSerializableExtra("POLITICIANS");
-        Bundle extras = getIntentBundle();
 
         TextView topic_txt_view = (TextView) findViewById(R.id.topic_txt_view);
         TextView date_txt_view = (TextView) findViewById(R.id.date_txt_view);
@@ -54,11 +53,6 @@ public class PostDetailsActivity extends FragmentActivity {
     public void claimOption(View view) {
         AlertDialogFragmentClaimOptions alertDialogFragmentClaimOptions = new AlertDialogFragmentClaimOptions();
         alertDialogFragmentClaimOptions.show(fragmentManager,"Alert Dialog Fragment");
-    }
-
-    public Bundle getIntentBundle(){
-        Bundle bundle = getIntent().getExtras();
-        return bundle;
     }
 
     /*
