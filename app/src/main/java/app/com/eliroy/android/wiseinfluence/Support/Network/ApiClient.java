@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import app.com.eliroy.android.wiseinfluence.Controller.CustomAdapter;
 import app.com.eliroy.android.wiseinfluence.Controller.PostDetailsActivity;
+import app.com.eliroy.android.wiseinfluence.Model.Category;
 import app.com.eliroy.android.wiseinfluence.Model.Politician;
 import app.com.eliroy.android.wiseinfluence.Model.Post;
 import app.com.eliroy.android.wiseinfluence.R;
@@ -39,9 +40,9 @@ public class ApiClient {
     private PostDownloadAsyncTask postTask;
     private PoliticianDownloadAsyncTask politicianTask;
 
-    public void reloadPostWithURL(String url, CallBack handler){
+    public void reloadPostWithURL(Category category, CallBack handler){
         postTask = new PostDownloadAsyncTask(handler);
-        postTask.execute(url);
+        postTask.execute(category);
     }
 
     //always go to same static json
@@ -52,7 +53,7 @@ public class ApiClient {
 
     //============================ load posts to listview ==============================//
 
-    private class PostDownloadAsyncTask extends AsyncTask<String,Void, ArrayList<Post>> {
+    private class PostDownloadAsyncTask extends AsyncTask<Category,Void, ArrayList<Post>> {
 
         private CallBack handler = null;
 
@@ -61,14 +62,14 @@ public class ApiClient {
         }
 
         @Override
-        protected ArrayList<Post> doInBackground(String... params) {
+        protected ArrayList<Post> doInBackground(Category... params) {
 
             //enable debug here
             // android.os.Debug.waitForDebugger();
 
             Elements items = null;
             ArrayList<Post> posts = new ArrayList<Post>();
-            String urlString = params[0];
+            String urlString = params[0].getCategoryUrl();
             Document doc = null;
             Document innerDoc = null;
             Element description = null;
@@ -116,7 +117,9 @@ public class ApiClient {
                     content = content.substring(i+2);
                 }
 
-                posts.add(new Post(topic, date ,content));
+                String category = params[0].getName();//not sure about it
+
+                posts.add(new Post(topic, date ,content,category));
             }
             return posts;
         }

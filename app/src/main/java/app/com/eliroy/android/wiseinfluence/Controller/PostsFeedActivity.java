@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -23,6 +24,7 @@ import org.json.JSONObject;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
+import app.com.eliroy.android.wiseinfluence.Model.Category;
 import app.com.eliroy.android.wiseinfluence.Model.Politician;
 import app.com.eliroy.android.wiseinfluence.Model.Post;
 import app.com.eliroy.android.wiseinfluence.R;
@@ -33,7 +35,9 @@ public class PostsFeedActivity extends FragmentActivity {
 
     private ApiClient client = new ApiClient();
     private ArrayList<Politician> politicians;
-
+    private String[] categoriesString = {"Finance","Economics","Knesset","External","Internal"
+            ,"Immigration","Education","Labor","Control","Women","Technology"};
+    public  Category[] categories;
 
 
     FragmentManager fragmentManager = getSupportFragmentManager();// is this executed? the fragment parent issue
@@ -43,12 +47,19 @@ public class PostsFeedActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_feed);
         String[] URLS = getResources().getStringArray(R.array.RSS_channels_URL);
-        reloadFeedWithURL(URLS[0]);
+        categories = new Category[11];
+        //==== create categories array ===//
+        for (int i = 0; i < URLS.length; i++){
+            categories[i] = new Category(categoriesString[i],URLS[i]);
+        }
+        Log.v("DEBUG",""+categories[0].getName());
+        reloadFeedWithURL(categories[0]);
         loadPoliticians();
     }
 
-    public void reloadFeedWithURL(String url){
+    public void reloadFeedWithURL(Category category){
         final Context context = this;
+        Log.v("DEBUG","" + category.getName());
         CallBack<ArrayList<Post>> handler = new CallBack<ArrayList<Post>>() {
             @Override
             public void handle(final ArrayList<Post> result) {
@@ -72,7 +83,7 @@ public class PostsFeedActivity extends FragmentActivity {
                 );
             }
         };
-        client.reloadPostWithURL(url, handler);
+        client.reloadPostWithURL(category, handler);
     }
 
     private void loadPoliticians() {

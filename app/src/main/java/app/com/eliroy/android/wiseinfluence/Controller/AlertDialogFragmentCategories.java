@@ -20,8 +20,9 @@ public class AlertDialogFragmentCategories extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String[] URLS = getResources().getStringArray(R.array.RSS_channels_URL);
+
                         PostsFeedActivity parent = (PostsFeedActivity) getActivity();
-                        parent.reloadFeedWithURL(URLS[i]);
+                        parent.reloadFeedWithURL(parent.categories[i]);
                     }
                 })
                 .create();

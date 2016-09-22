@@ -16,6 +16,7 @@ public class Post implements Serializable{
     private String date;
     //remove later
     private String imgUrl;
+    private String parentCategory;
 
     public Post(){
        /*
@@ -26,14 +27,14 @@ public class Post implements Serializable{
         content = topic + "";*/
         imgUrl = null;
     }
-    public Post(String topic, String date, String content){
+    public Post(String topic, String date, String content, String parentCategory){
         this.topic = topic;
         this.content = content;
         this.date = date;
+        this.parentCategory = parentCategory;
         imgUrl = null;
     }
 
-    //TODO getters and setters
     public String getTopic(){
 
         return topic;
