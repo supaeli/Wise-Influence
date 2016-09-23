@@ -2,10 +2,8 @@ package app.com.eliroy.android.wiseinfluence.Controller;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,10 +11,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-
-import java.util.List;
-import java.util.Stack;
-
 import app.com.eliroy.android.wiseinfluence.R;
 
 public class AlertDialogFragmentClaimOptions extends DialogFragment{
@@ -30,14 +24,14 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
                 .setItems(claimOptions, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        // TODO: 23/09/2016 define logic to use certain politician
                         switch (i){
                             case 0: {
                                 showEmailClaim();
                             }
                             case 1:{
                                 // TODO: 09/09/2016 call facebook intent creator
-                               // showFacebookClaim();
+                                showFacebookClaim();
                             }
                             case 2:{
                                 // TODO: 09/09/2016 call phone call intent creator
@@ -78,10 +72,21 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
         } catch(ActivityNotFoundException e){
             e.printStackTrace();
             Log.i("INFO", "No email client found");
-            Toast.makeText(parent.getApplicationContext(),
-                    "No email app found, lease install and try again",
-                    Toast.LENGTH_LONG)
-                    .show();
+            Toast.makeText(parent.getApplicationContext(), "No email app found, lease install and try again", Toast.LENGTH_LONG).show();
+        }
+    }
+    /*
+    * Open politician FB page
+    * */
+    private void showFacebookClaim() {
+        PostDetailsActivity parent = (PostDetailsActivity) getActivity();
+        String facebookURL = parent.politicians.size() > 0 ? parent.politicians.get(0).getFacebook() : "";
+        if (facebookURL == null || facebookURL.length() == 0){
+            Toast.makeText(parent.getApplicationContext(), "לא נמצא חשבון פייסבוק לחבר הכנסת המבוקש",Toast.LENGTH_LONG).show();
+        }
+        else {
+            Intent facebookIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookURL));
+            startActivity(facebookIntent);
         }
     }
 

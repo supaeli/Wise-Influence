@@ -146,7 +146,7 @@ public class ApiClient {
 
     private class PoliticianDownloadAsyncTask extends AsyncTask<String, String, ArrayList<Politician>>{
 
-        private String url = "https://dl.dropboxusercontent.com/u/14989930/politicians.json";
+        private String url = "https://dl.dropboxusercontent.com/u/14989930/knesset/politicians.json";
         private CallBack handler = null;
 
         public PoliticianDownloadAsyncTask(CallBack handler){
@@ -165,10 +165,10 @@ public class ApiClient {
 
                 for (int i = 0; i < politiciansJSON.length(); i++) {
                     JSONObject politicianJSON = politiciansJSON.getJSONObject(i);
-                    String name = politicianJSON.getString("name");
+                    String name = politicianJSON.getString("first_name") + " " + politicianJSON.getString("last_name");
                     String id = politicianJSON.getString("id");
                     String email = politicianJSON.getString("email");
-                    String facebook = politicianJSON.getString("facebook_page");
+                    String facebook = politicianJSON.getString("facebook_url");
                     String phone = politicianJSON.getString("phone");
                     Politician politician = new Politician(id, name, email, facebook, phone);
                     result.add(politician);
