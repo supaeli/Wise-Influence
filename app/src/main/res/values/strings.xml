@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Wise Influence</string>
-    <string-array name="committee_names">
+
+    <string-array name="committee_hebrew_names">
         <item>כספים</item>
         <item>כלכלה</item>
         <item>ועדת הכנסת</item>
@@ -12,6 +13,20 @@
         <item>ענייני ביקורת המדינה</item>
         <item>קידום מעמד האישה</item>
         <item>מדע וטכנולוגיה</item>
+    </string-array>
+
+    <string-array name="committee_english_names">
+        <item>Finance</item>
+        <item>Economy</item>
+        <item>Knesset</item>
+        <item>External</item>
+        <item>Internal</item>
+        <item>Immigration</item>
+        <item>Education</item>
+        <item>Labor</item>
+        <item>Control</item>
+        <item>Women</item>
+        <item>Technology</item>
     </string-array>
 
     <string-array name="RSS_channels_URL">

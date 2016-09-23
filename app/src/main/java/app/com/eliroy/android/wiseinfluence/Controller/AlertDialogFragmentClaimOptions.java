@@ -32,15 +32,27 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         PostDetailsActivity parent = (PostDetailsActivity) getActivity();
-                        String mail = parent.politicians.size() > 0 ? parent
+                        String email = parent.politicians.size() > 0 ? parent
                                 .politicians.get(0).getEmail() : "";
                         String topic = parent.post.getTopic();
+                        String templateContent = "";
+                        //find and assign template content
+                        for (int templatesIndex = 0;
+                             templatesIndex < parent.templates.size(); templatesIndex++){
+
+                                 if(parent.templates.get(templatesIndex).getCategory()
+                                        .equals(parent.post.getParentCategory())){
+                                     templateContent = parent.templates.get(templatesIndex).getContent();
+                                 }
+
+                        }
+
                         switch (i){
                             case 0: {
                                 Intent intent = new Intent(Intent.ACTION_SENDTO);
-                                String uriText = "mailto:" + Uri.encode(mail) +
+                                String uriText = "mailto:" + Uri.encode(email) +
                                         "?subject=" + Uri.encode(topic) +
-                                        "&body=" + Uri.encode("test content");
+                                        "&body=" + Uri.encode(templateContent);
                                 Uri uri = Uri.parse(uriText);
                                 intent.setData(uri);
                                 startActivity(Intent.createChooser(intent,"send mail"));

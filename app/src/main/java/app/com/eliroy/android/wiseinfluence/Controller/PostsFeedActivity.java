@@ -27,6 +27,7 @@ import android.support.v4.app.FragmentManager;
 import app.com.eliroy.android.wiseinfluence.Model.Category;
 import app.com.eliroy.android.wiseinfluence.Model.Politician;
 import app.com.eliroy.android.wiseinfluence.Model.Post;
+import app.com.eliroy.android.wiseinfluence.Model.Template;
 import app.com.eliroy.android.wiseinfluence.R;
 import app.com.eliroy.android.wiseinfluence.Support.Network.ApiClient;
 import app.com.eliroy.android.wiseinfluence.Support.Network.CallBack;
@@ -35,9 +36,9 @@ public class PostsFeedActivity extends FragmentActivity {
 
     private ApiClient client = new ApiClient();
     private ArrayList<Politician> politicians;
-    private String[] categoriesString = {"Finance","Economics","Knesset","External","Internal"
-            ,"Immigration","Education","Labor","Control","Women","Technology"};
+    //consider make local
     public  Category[] categories;
+    private ArrayList<Template> templates;
 
 
     FragmentManager fragmentManager = getSupportFragmentManager();// is this executed? the fragment parent issue
@@ -47,6 +48,7 @@ public class PostsFeedActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_feed);
         String[] URLS = getResources().getStringArray(R.array.RSS_channels_URL);
+        String[] categoriesString = getResources().getStringArray(R.array.committee_english_names);
         categories = new Category[11];
         //==== create categories array ===//
         for (int i = 0; i < URLS.length; i++){
@@ -55,6 +57,7 @@ public class PostsFeedActivity extends FragmentActivity {
         Log.v("DEBUG",""+categories[0].getName());
         reloadFeedWithURL(categories[0]);
         loadPoliticians();
+        loadTemplates();
     }
 
     public void reloadFeedWithURL(Category category){
@@ -76,6 +79,7 @@ public class PostsFeedActivity extends FragmentActivity {
                                 Bundle extras = new Bundle();
                                 extras.putSerializable("POLITICIANS", politicians);
                                 extras.putSerializable("POST", result.get(position));
+                                extras.putSerializable("TEMPLATES", templates);
                                 intent.putExtras(extras);
                                 startActivity(intent);
                             }
@@ -91,6 +95,15 @@ public class PostsFeedActivity extends FragmentActivity {
             @Override
             public void handle(final ArrayList<Politician> result) {
                 politicians = result;
+            }
+        });
+    }
+
+    private void loadTemplates() {
+        client.loadTemplates(new CallBack<ArrayList<Template>>(){
+            @Override
+            public void handle(ArrayList<Template> result) {
+                templates = result;
             }
         });
     }

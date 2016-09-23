@@ -13,7 +13,7 @@ public class AlertDialogFragmentCategories extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        String[] committeeNames = getResources().getStringArray(R.array.committee_names);
+        String[] committeeNames = getResources().getStringArray(R.array.committee_hebrew_names);
 
         return new AlertDialog.Builder(getActivity())
                 .setItems(committeeNames, new DialogInterface.OnClickListener() {

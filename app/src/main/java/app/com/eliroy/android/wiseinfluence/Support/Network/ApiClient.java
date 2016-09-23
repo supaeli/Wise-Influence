@@ -30,7 +30,10 @@ import app.com.eliroy.android.wiseinfluence.Controller.PostDetailsActivity;
 import app.com.eliroy.android.wiseinfluence.Model.Category;
 import app.com.eliroy.android.wiseinfluence.Model.Politician;
 import app.com.eliroy.android.wiseinfluence.Model.Post;
+import app.com.eliroy.android.wiseinfluence.Model.Template;
 import app.com.eliroy.android.wiseinfluence.R;
+
+import static android.os.Debug.waitForDebugger;
 
 /**
  * Created by elay1_000 on 14/08/2016.
@@ -39,6 +42,7 @@ public class ApiClient {
 
     private PostDownloadAsyncTask postTask;
     private PoliticianDownloadAsyncTask politicianTask;
+    private TemplateDownloadAsyncTask templateTask;
 
     public void reloadPostWithURL(Category category, CallBack handler){
         postTask = new PostDownloadAsyncTask(handler);
@@ -49,6 +53,11 @@ public class ApiClient {
     public void loadPoliticians(CallBack handler){
         politicianTask = new PoliticianDownloadAsyncTask(handler);
         politicianTask.execute();
+    }
+
+    public void loadTemplates(CallBack handler){
+        templateTask = new TemplateDownloadAsyncTask(handler);
+        templateTask.execute();
     }
 
     //============================ load posts to listview ==============================//
@@ -65,7 +74,7 @@ public class ApiClient {
         protected ArrayList<Post> doInBackground(Category... params) {
 
             //enable debug here
-            // android.os.Debug.waitForDebugger();
+
 
             Elements items = null;
             ArrayList<Post> posts = new ArrayList<Post>();
@@ -201,6 +210,81 @@ public class ApiClient {
                 is.close();
                 // try parse the string to a JSON object
 
+
+            } catch (MalformedURLException e){
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return jsonString;
+        }
+    }
+
+    //================================= load templates ============================//
+
+    private class TemplateDownloadAsyncTask extends AsyncTask<String, String, ArrayList<Template>>{
+
+        private String url = "https://dl.dropboxusercontent.com/u/14989930/knesset/templates.json";
+        private CallBack handler = null;
+
+        public TemplateDownloadAsyncTask(CallBack handler){
+            this.handler = handler;
+        }
+
+
+        @Override
+        protected ArrayList<Template> doInBackground(String... urls) {
+
+            ArrayList<Template> result = new ArrayList<Template>();
+            try {
+                String jsonString = getJson(this.url);
+
+                JSONArray templatesJSON = new JSONArray(jsonString);
+
+                for (int i = 0; i < templatesJSON.length(); i++) {
+                    JSONObject templateJSON = templatesJSON.getJSONObject(i);
+                    //
+                    String id = templateJSON.getString("id");
+                    String content = templateJSON.getString("content");
+                    String category = templateJSON.getString("category");
+                    Template template= new Template(id, category, content);
+                    result.add(template);
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Template> result) {
+            //waitForDebugger();
+            this.handler.handle(result);
+        }
+
+        private String getJson(String urlString) throws IOException {
+
+            String jsonString= null;
+
+            try {
+                URL url = new URL(urlString);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                InputStream is = connection.getInputStream();
+                //create here the json object from input stream
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        is, "UTF-8"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+
+                jsonString = sb.toString();
+                is.close();
 
             } catch (MalformedURLException e){
                 e.printStackTrace();

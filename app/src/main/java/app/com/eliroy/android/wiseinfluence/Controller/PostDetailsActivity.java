@@ -17,12 +17,14 @@ import java.util.Stack;
 
 import app.com.eliroy.android.wiseinfluence.Model.Politician;
 import app.com.eliroy.android.wiseinfluence.Model.Post;
+import app.com.eliroy.android.wiseinfluence.Model.Template;
 import app.com.eliroy.android.wiseinfluence.R;
 
 public class PostDetailsActivity extends FragmentActivity {
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     ArrayList<Politician> politicians;
+    ArrayList<Template> templates;
     Post post;
 
     @Override
@@ -31,17 +33,17 @@ public class PostDetailsActivity extends FragmentActivity {
         setContentView(R.layout.activity_post_details);
         // TODO: 18/09/2016 take care of unchecked cast
         politicians = (ArrayList<Politician>)getIntent().getSerializableExtra("POLITICIANS");
-
+        templates = (ArrayList<Template>)getIntent().getSerializableExtra("TEMPLATES");
         TextView topic_txt_view = (TextView) findViewById(R.id.topic_txt_view);
         TextView date_txt_view = (TextView) findViewById(R.id.date_txt_view);
         TextView content_txt_view = (TextView) findViewById(R.id.content_txt_view);
-        // TODO: 14/09/2016 decide how to use TOPIC on the fragment as claim subject
 
         post = (Post)getIntent().getSerializableExtra("POST");
 
         topic_txt_view.setText(post.getTopic());
         date_txt_view.setText(post.getDate());
         content_txt_view.setText(post.getContent());
+        //setter for Post instance, check later
         setTitle(post.getTopic());
 
     }
