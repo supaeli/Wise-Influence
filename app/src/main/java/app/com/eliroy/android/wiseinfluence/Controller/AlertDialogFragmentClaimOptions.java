@@ -11,14 +11,18 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
+import app.com.eliroy.android.wiseinfluence.Model.Politician;
 import app.com.eliroy.android.wiseinfluence.R;
 
 public class AlertDialogFragmentClaimOptions extends DialogFragment{
 
+    PostDetailsActivity parent = null;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String[] claimOptions = getResources().getStringArray(R.array.claim_options);
+        parent =(PostDetailsActivity) getActivity();
 
         return new AlertDialog.Builder(getActivity())
                 .setItems(claimOptions, new DialogInterface.OnClickListener() {
@@ -30,12 +34,11 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
                                 showEmailClaim();
                             }
                             case 1:{
-                                // TODO: 09/09/2016 call facebook intent creator
                                 showFacebookClaim();
                             }
                             case 2:{
                                 // TODO: 09/09/2016 call phone call intent creator
-                                //showPhoneCallClaim();
+                                showPhoneCallClaim();
                             }
                         }
                     }
@@ -44,7 +47,6 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
     }
 
     private void showEmailClaim() {
-        PostDetailsActivity parent = (PostDetailsActivity) getActivity();
         String email = parent.politicians.size() > 0 ? parent.politicians.get(0).getEmail() : "";
         String topic = parent.post.getTopic();
 
@@ -79,7 +81,6 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
     * Open politician FB page
     * */
     private void showFacebookClaim() {
-        PostDetailsActivity parent = (PostDetailsActivity) getActivity();
         String facebookURL = parent.politicians.size() > 0 ? parent.politicians.get(0).getFacebook() : "";
         if (facebookURL == null || facebookURL.length() == 0){
             Toast.makeText(parent.getApplicationContext(), "לא נמצא חשבון פייסבוק לחבר הכנסת המבוקש",Toast.LENGTH_LONG).show();
@@ -90,6 +91,27 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
         }
     }
 
+    private void showPhoneCallClaim() {
+        Politician politician = getPolitician();
+        if(politician == null || politician.getPhone().length() == 0) {
+            Toast.makeText(parent.getApplicationContext(), "לא נמצא מספר טלפון לחבר הכנסת המבוקש", Toast.LENGTH_LONG).show();
+        }
+        else {
+            String phoneString = politician.getPhone();
+            String uri = "tel:" + phoneString;
+            Intent phoneCallIntent = new Intent(Intent.ACTION_DIAL);
+            phoneCallIntent.setData(Uri.parse(uri));
+            startActivity(phoneCallIntent);
+        }
+    }
+    
+    /*
+    * get the relevant politician object according to category - later
+    * */
+    private Politician getPolitician(){
+        Politician politician = parent.politicians.size() > 0 ? parent.politicians.get(0) : null;
+        return politician;
+    }
 }
 
 
