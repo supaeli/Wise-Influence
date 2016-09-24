@@ -32,13 +32,16 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
                         switch (i){
                             case 0: {
                                 showEmailClaim();
+                                break;
                             }
                             case 1:{
                                 showFacebookClaim();
+                                break;
                             }
                             case 2:{
                                 // TODO: 09/09/2016 call phone call intent creator
                                 showPhoneCallClaim();
+                                break;
                             }
                         }
                     }
@@ -52,11 +55,8 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
 
         String templateContent = "";
         //find and assign template content
-        for (int templatesIndex = 0;
-             templatesIndex < parent.templates.size(); templatesIndex++){
-
-            if(parent.templates.get(templatesIndex).getCategory()
-                    .equals(parent.post.getParentCategory())){
+        for (int templatesIndex = 0; templatesIndex < parent.templates.size(); templatesIndex++){
+            if(parent.templates.get(templatesIndex).getCategory().equals(parent.post.getParentCategory())){
                 templateContent = parent.templates.get(templatesIndex).getContent();
             }
         }

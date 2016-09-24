@@ -43,22 +43,20 @@ public class PostsFeedActivity extends FragmentActivity {
 
     FragmentManager fragmentManager = getSupportFragmentManager();// is this executed? the fragment parent issue
 
+    //====================== Lifecycle ================//
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_feed);
-        String[] URLS = getResources().getStringArray(R.array.RSS_channels_URL);
-        String[] categoriesString = getResources().getStringArray(R.array.committee_english_names);
-        categories = new Category[11];
-        //==== create categories array ===//
-        for (int i = 0; i < URLS.length; i++){
-            categories[i] = new Category(categoriesString[i],URLS[i]);
-        }
+        prepareCategories();
         Log.v("DEBUG",""+categories[0].getName());
         reloadFeedWithURL(categories[0]);
         loadPoliticians();
         loadTemplates();
     }
+
+    //====================== Configuration ================//
 
     public void reloadFeedWithURL(Category category){
         final Context context = this;
@@ -108,6 +106,18 @@ public class PostsFeedActivity extends FragmentActivity {
         });
     }
 
+    private void prepareCategories() {
+        String[] URLS = getResources().getStringArray(R.array.RSS_channels_URL);
+        String[] categoriesString = getResources().getStringArray(R.array.committee_english_names);
+        categories = new Category[11];
+        //==== create categories array ===//
+        for (int i = 0; i < URLS.length; i++){
+            categories[i] = new Category(categoriesString[i],URLS[i]);
+        }
+    }
+
+    //====================== Actions ================//
+
     /*
     * onClick method for category button
     * */
@@ -115,4 +125,6 @@ public class PostsFeedActivity extends FragmentActivity {
         AlertDialogFragmentCategories alertDialogFragmentCategories = new AlertDialogFragmentCategories();
         alertDialogFragmentCategories.show(fragmentManager,"Alert Dialog Fragment");
     }
+
+
 }
