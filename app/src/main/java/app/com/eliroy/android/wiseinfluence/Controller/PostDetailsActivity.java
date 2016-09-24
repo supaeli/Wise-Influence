@@ -92,6 +92,7 @@ public class PostDetailsActivity extends FragmentActivity {
         Bundle extras = new Bundle();
         extras.putSerializable("TEMPLATE", template);
         extras.putSerializable("POST", post);
+        extras.putSerializable("POLITICIANS", politicians);
         viewTemplateIntent.putExtras(extras);
         startActivity(viewTemplateIntent);
     }
