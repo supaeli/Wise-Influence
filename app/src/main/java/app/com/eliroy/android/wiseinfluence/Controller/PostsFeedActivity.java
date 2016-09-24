@@ -2,24 +2,13 @@ package app.com.eliroy.android.wiseinfluence.Controller;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -50,15 +39,15 @@ public class PostsFeedActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_feed);
         prepareCategories();
-        Log.v("DEBUG",""+categories[0].getName());
-        reloadFeedWithURL(categories[0]);
+        Log.v("DEBUG","" + categories[0].getName());
+        reloadFeedWithCategory(categories[0]);
         loadPoliticians();
         loadTemplates();
     }
 
     //====================== Configuration ================//
 
-    public void reloadFeedWithURL(Category category){
+    public void reloadFeedWithCategory(Category category){
         final Context context = this;
         Log.v("DEBUG","" + category.getName());
         CallBack<ArrayList<Post>> handler = new CallBack<ArrayList<Post>>() {
@@ -85,7 +74,7 @@ public class PostsFeedActivity extends FragmentActivity {
                 );
             }
         };
-        client.reloadPostWithURL(category, handler);
+        client.reloadPostWithCategory(category, handler);
     }
 
     private void loadPoliticians() {

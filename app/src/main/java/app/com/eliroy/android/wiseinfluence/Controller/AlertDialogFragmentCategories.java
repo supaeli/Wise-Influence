@@ -22,7 +22,7 @@ public class AlertDialogFragmentCategories extends DialogFragment {
                         String[] URLS = getResources().getStringArray(R.array.RSS_channels_URL);
 
                         PostsFeedActivity parent = (PostsFeedActivity) getActivity();
-                        parent.reloadFeedWithURL(parent.categories[i]);
+                        parent.reloadFeedWithCategory(parent.categories[i]);
                     }
                 })
                 .create();

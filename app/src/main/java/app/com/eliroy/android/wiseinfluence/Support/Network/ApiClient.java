@@ -44,7 +44,7 @@ public class ApiClient {
     private PoliticianDownloadAsyncTask politicianTask;
     private TemplateDownloadAsyncTask templateTask;
 
-    public void reloadPostWithURL(Category category, CallBack handler){
+    public void reloadPostWithCategory(Category category, CallBack handler){
         postTask = new PostDownloadAsyncTask(handler);
         postTask.execute(category);
     }
