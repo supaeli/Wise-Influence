@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Controller.PostDetailsActivity"></activity>
+        <activity android:name=".Controller.TemplateDetailsActivity"></activity>
     </application>
 
 </manifest>

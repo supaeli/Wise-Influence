@@ -91,6 +91,7 @@ public class PostDetailsActivity extends FragmentActivity {
         Intent viewTemplateIntent = new Intent(PostDetailsActivity.this, TemplateDetailsActivity.class);
         Bundle extras = new Bundle();
         extras.putSerializable("TEMPLATE", template);
+        extras.putSerializable("POST", post);
         viewTemplateIntent.putExtras(extras);
         startActivity(viewTemplateIntent);
     }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Controller.TemplateDetailsActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:scrollbars="none"
+        android:paddingRight="32dp"
+        android:paddingLeft="16dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/topic_txt_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:maxLines="3"
+                android:textDirection="rtl"
+                android:paddingBottom="16dp"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/content_txt_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:textColor="@color/black"
+                android:textDirection="rtl"
+                android:lineSpacingExtra="2dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/mail_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:elevation="10dp"
+            android:onClick="onMailButtonClick"
+            android:text="אימייל"/>
+        <Button
+            android:id="@+id/facebook_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:elevation="10dp"
+            android:onClick="onFacebookButtonClick"
+            android:text="פייסבוק"/>
+        <Button
+            android:id="@+id/phone_call_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:elevation="10dp"
+            android:onClick="onPhoneCallButtonClick"
+            android:text="שיחת טלפון"/>
+    </LinearLayout>
+
+</LinearLayout>
