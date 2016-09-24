@@ -21,6 +21,7 @@ public class AlertDialogTemplatesFeed extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String[] templatesNames = getTemplatesNames();
+
         return new AlertDialog.Builder(getActivity()).setItems(templatesNames, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -32,14 +33,18 @@ public class AlertDialogTemplatesFeed extends DialogFragment {
         }).create();
     }
 
-    @NonNull
     private String[] getTemplatesNames() {
         PostDetailsActivity parent = (PostDetailsActivity) getActivity();
         ArrayList<Template> templates = parent.templates;
-        String[] templatesNames = new String[templates.size()];
-        for (int i = 0; i < templates.size(); i++){
-            templatesNames[i] = templates.get(i).getName();
+        if(templates != null) {
+            String[] templatesNames = new String[templates.size()];
+
+            for (int i = 0; i < templates.size(); i++) {
+                templatesNames[i] = templates.get(i).getName();
+            }
+
+            return templatesNames;
         }
-        return templatesNames;
+        return new String[0];
     }
 }

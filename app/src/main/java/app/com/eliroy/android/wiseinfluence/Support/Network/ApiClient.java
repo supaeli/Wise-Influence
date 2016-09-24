@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -160,7 +161,6 @@ public class ApiClient {
                     Politician politician = new Politician(id, name, email, facebook, phone);
                     result.add(politician);
                 }
-
 
             } catch (Exception e) {
                 e.printStackTrace();

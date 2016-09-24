@@ -24,6 +24,7 @@ public class TemplateDetailsActivity extends Activity {
 
     private ArrayList<Politician> politicians;
     private Post post;
+    private Template template;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,17 +34,23 @@ public class TemplateDetailsActivity extends Activity {
         TextView topicTextView = (TextView) findViewById(R.id.topic_txt_view);
         TextView contentTextView = (TextView) findViewById(R.id.content_txt_view);
 
-        Template template = (Template)getIntent().getSerializableExtra("TEMPLATE");
+        template = (Template)getIntent().getSerializableExtra("TEMPLATE");
         post = (Post)getIntent().getSerializableExtra("POST");
         politicians = (ArrayList<Politician>)getIntent().getSerializableExtra("POLITICIANS");
-        String topic = "בנושא" + " " + post.getTopic();
-        topicTextView.setText(topic);
-        contentTextView.setText( template.getContent());
+
+        if (post != null && post.getTopic() != null && post.getTopic().length() != 0) {
+            String topic = "בנושא" + " " + post.getTopic();
+            topicTextView.setText(topic);
+        }
+
+        if(template != null && template.getContent() != null && template.getContent().length() != 0) {
+            contentTextView.setText(template.getContent());
+        }
     }
 
     public void onPhoneButtonClick(View view) {
         Politician politician = getPolitician();
-        if(politician == null || politician.getPhone().length() == 0) {
+        if(politician == null || politician.getPhone() == null || politician.getPhone().length() == 0) {
             Toast.makeText(getApplicationContext(), "לא נמצא מספר טלפון לחבר הכנסת המבוקש", Toast.LENGTH_LONG).show();
         }
         else {
@@ -57,43 +64,49 @@ public class TemplateDetailsActivity extends Activity {
     }
 
     public void onFacebookButtonClick(View view) {
-        String facebookURL = politicians.size() > 0 ? politicians.get(0).getFacebook() : "";
-        if (facebookURL == null || facebookURL.length() == 0){
+        Politician politician = getPolitician();
+
+        if (politician == null || politician.getFacebook() == null || politician.getFacebook().length() == 0){
             Toast.makeText(getApplicationContext(), "לא נמצא חשבון פייסבוק לחבר הכנסת המבוקש",Toast.LENGTH_LONG).show();
         }
         else {
-            Intent facebookIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookURL));
+            Intent facebookIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(politician.getFacebook()));
             startActivity(facebookIntent);
         }
     }
 
     public void onMailButtonClick(View view) {
-        String email = politicians.size() > 0 ? politicians.get(0).getEmail() : "";
-        String topic = post.getTopic();
+        Politician politician = getPolitician();
 
-        String templateContent = "";
+        if (politician == null  || politician.getEmail() == null || post == null || post.getTopic() == null
+                || template == null  || template.getContent() == null ) {
+           Toast.makeText(getApplicationContext(),"לא נמצא חשבון מייל לחבר הכנסת המבוקש",Toast.LENGTH_LONG).show();
+        }
+        else {
+            String topic = post.getTopic();
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+            String uriText = "mailto:" + Uri.encode(politician.getEmail()) +
+                    "?subject=" + Uri.encode(topic) +
+                    "&body=" + Uri.encode(template.getContent());
+            Uri uri = Uri.parse(uriText);
+            emailIntent.setData(uri);
+            startActivity(Intent.createChooser(emailIntent, "send mail"));
 
-
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-        String uriText = "mailto:" + Uri.encode(email) +
-                "?subject=" + Uri.encode(topic) +
-                "&body=" + Uri.encode(templateContent);
-        Uri uri = Uri.parse(uriText);
-        emailIntent.setData(uri);
-        startActivity(Intent.createChooser(emailIntent,"send mail"));
-
-        try {
-            startActivity(Intent.createChooser(emailIntent,"send mail"));
-        } catch(ActivityNotFoundException e){
-            e.printStackTrace();
-            Log.i("INFO", "No email client found");
-            Toast.makeText(getApplicationContext(), "No email app found, lease install and try again", Toast.LENGTH_LONG).show();
+            try {
+                startActivity(Intent.createChooser(emailIntent,"send mail"));
+            } catch(ActivityNotFoundException e){
+                e.printStackTrace();
+                Log.i("INFO", "No email client found");
+                Toast.makeText(getApplicationContext(), "No email app found, lease install and try again", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
-    // TODO: 24/09/2016 add method call to all claim options
     private Politician getPolitician(){
-        Politician politician = politicians.size() > 0 ? politicians.get(0) : null;
-        return politician;
+        if(politicians != null) {
+            Politician politician = politicians.size() > 0 ? politicians.get(0) : null;
+            return politician;
+        }
+        return null;
     }
 }
