@@ -9,11 +9,13 @@ public class Category {
     private String name;// knesset, finance, economics, foreign affairs, internal affairs,
     // huka, immigration, Education, labor, state control, women, science, drugs, children,
     // govInfo, urban, petitions, ethics, broadcast2015 govService, socialEquality.
-    String categoryUrl;
+    String postsURL;
+    String politiciansURL;
 
-    public Category(String name, String categoryUrl){
+    public Category(String name, String postsURL, String politiciansURL){
         this.name = name;
-        this.categoryUrl = categoryUrl;
+        this.postsURL = postsURL;
+        this.politiciansURL = politiciansURL;
 
     }
 
@@ -21,7 +23,11 @@ public class Category {
         return name;
     }
 
-    public String getCategoryUrl() {
-        return categoryUrl;
+    public String getPostsURL() {
+        return postsURL;
+    }
+
+    public String getPoliticiansURL() {
+        return politiciansURL;
     }
 }

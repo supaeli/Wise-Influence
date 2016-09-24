@@ -1,13 +1,7 @@
 package app.com.eliroy.android.wiseinfluence.Support.Network;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,15 +19,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import app.com.eliroy.android.wiseinfluence.Controller.CustomAdapter;
-import app.com.eliroy.android.wiseinfluence.Controller.PostDetailsActivity;
 import app.com.eliroy.android.wiseinfluence.Model.Category;
 import app.com.eliroy.android.wiseinfluence.Model.Politician;
 import app.com.eliroy.android.wiseinfluence.Model.Post;
 import app.com.eliroy.android.wiseinfluence.Model.Template;
-import app.com.eliroy.android.wiseinfluence.R;
-
-import static android.os.Debug.waitForDebugger;
 
 /**
  * Created by elay1_000 on 14/08/2016.
@@ -50,9 +39,9 @@ public class ApiClient {
     }
 
     //always go to same static json
-    public void loadPoliticians(CallBack handler){
+    public void loadPoliticians(Category category, CallBack handler){
         politicianTask = new PoliticianDownloadAsyncTask(handler);
-        politicianTask.execute();
+        politicianTask.execute(category);
     }
 
     public void loadTemplates(CallBack handler){
@@ -71,14 +60,14 @@ public class ApiClient {
         }
 
         @Override
-        protected ArrayList<Post> doInBackground(Category... params) {
+        protected ArrayList<Post> doInBackground(Category... categories) {
 
             //enable debug here
 
 
             Elements items = null;
             ArrayList<Post> posts = new ArrayList<Post>();
-            String urlString = params[0].getCategoryUrl();
+            String urlString = categories[0].getPostsURL();
             Document doc = null;
             Document innerDoc = null;
             Element description = null;
@@ -126,7 +115,7 @@ public class ApiClient {
                     content = content.substring(i+2);
                 }
 
-                String category = params[0].getName();//not sure about it
+                String category = categories[0].getName();//not sure about it
 
                 posts.add(new Post(topic, date ,content,category));
             }
@@ -144,22 +133,20 @@ public class ApiClient {
     }
     //================================= load politicians info ============================//
 
-    private class PoliticianDownloadAsyncTask extends AsyncTask<String, String, ArrayList<Politician>>{
+    private class PoliticianDownloadAsyncTask extends AsyncTask<Category, String, ArrayList<Politician>>{
 
-        private String url = "https://dl.dropboxusercontent.com/u/14989930/knesset/politicians.json";
         private CallBack handler = null;
 
         public PoliticianDownloadAsyncTask(CallBack handler){
             this.handler = handler;
         }
 
-
         @Override
-        protected ArrayList<Politician> doInBackground(String... urls) {
+        protected ArrayList<Politician> doInBackground(Category... categories) {
 
             ArrayList<Politician> result = new ArrayList<Politician>();
             try {
-                String jsonString = getJson(this.url);
+                String jsonString = getJson(categories[0].getPoliticiansURL());
 
                 JSONArray politiciansJSON = new JSONArray(jsonString);
 

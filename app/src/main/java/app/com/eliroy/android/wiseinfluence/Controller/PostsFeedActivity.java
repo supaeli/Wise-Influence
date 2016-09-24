@@ -41,7 +41,6 @@ public class PostsFeedActivity extends FragmentActivity {
         prepareCategories();
         Log.v("DEBUG","" + categories[0].getName());
         reloadFeedWithCategory(categories[0]);
-        loadPoliticians();
         loadTemplates();
     }
 
@@ -75,10 +74,11 @@ public class PostsFeedActivity extends FragmentActivity {
             }
         };
         client.reloadPostWithCategory(category, handler);
+        loadPoliticians(category);
     }
 
-    private void loadPoliticians() {
-        client.loadPoliticians(new CallBack<ArrayList<Politician>>() {
+    private void loadPoliticians(Category category) {
+        client.loadPoliticians(category, new CallBack<ArrayList<Politician>>() {
             @Override
             public void handle(final ArrayList<Politician> result) {
                 politicians = result;
@@ -96,12 +96,13 @@ public class PostsFeedActivity extends FragmentActivity {
     }
 
     private void prepareCategories() {
-        String[] URLS = getResources().getStringArray(R.array.RSS_channels_URL);
+        String[] postsURLS = getResources().getStringArray(R.array.RSS_channels_URL);
+        String[] politiciansURLS = getResources().getStringArray(R.array.Politicians_URLS);
         String[] categoriesString = getResources().getStringArray(R.array.committee_english_names);
         categories = new Category[11];
         //==== create categories array ===//
-        for (int i = 0; i < URLS.length; i++){
-            categories[i] = new Category(categoriesString[i],URLS[i]);
+        for (int i = 0; i < postsURLS.length; i++){
+            categories[i] = new Category(categoriesString[i],postsURLS[i],politiciansURLS[i]);
         }
     }
 

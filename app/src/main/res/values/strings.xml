@@ -49,6 +49,19 @@
         <item>טלפון</item>
     </string-array>
 
+    <string-array name="Politicians_URLS">
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_finance.json</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_economy.json</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_knesset.json</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_external.json</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_internal.json</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_immigration.json</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_education.json</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_labor.json</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_control.json</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_women.json</item>
+        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_technology.json</item>
+    </string-array>
 
 
 </resources>

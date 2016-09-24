@@ -50,6 +50,7 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
     }
 
     private void showEmailClaim() {
+        // add dialog to choose which politician is to be contacted
         String email = parent.politicians.size() > 0 ? parent.politicians.get(0).getEmail() : "";
         String topic = parent.post.getTopic();
 
@@ -81,6 +82,7 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
     * Open politician FB page
     * */
     private void showFacebookClaim() {
+
         String facebookURL = parent.politicians.size() > 0 ? parent.politicians.get(0).getFacebook() : "";
         if (facebookURL == null || facebookURL.length() == 0){
             Toast.makeText(parent.getApplicationContext(), "לא נמצא חשבון פייסבוק לחבר הכנסת המבוקש",Toast.LENGTH_LONG).show();
@@ -108,6 +110,7 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
     /*
     * get the relevant politician object according to category - later
     * */
+    // TODO: 24/09/2016 add method call to all claim options 
     private Politician getPolitician(){
         Politician politician = parent.politicians.size() > 0 ? parent.politicians.get(0) : null;
         return politician;
