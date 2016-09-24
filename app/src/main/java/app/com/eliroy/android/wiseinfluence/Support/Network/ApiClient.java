@@ -231,11 +231,11 @@ public class ApiClient {
 
                 for (int i = 0; i < templatesJSON.length(); i++) {
                     JSONObject templateJSON = templatesJSON.getJSONObject(i);
-                    //
                     String id = templateJSON.getString("id");
+                    String name = templateJSON.getString("name");
                     String content = templateJSON.getString("content");
-                    String category = templateJSON.getString("category");
-                    Template template= new Template(id, category, content);
+                    int likesCount = templateJSON.getInt("likes_count");
+                    Template template = new Template(id, name, content, likesCount);
                     result.add(template);
                 }
 

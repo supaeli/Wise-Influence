@@ -96,8 +96,8 @@ public class PostsFeedActivity extends FragmentActivity {
     }
 
     private void prepareCategories() {
-        String[] postsURLS = getResources().getStringArray(R.array.RSS_channels_URL);
-        String[] politiciansURLS = getResources().getStringArray(R.array.Politicians_URLS);
+        String[] postsURLS = getResources().getStringArray(R.array.rss_channels_urls);
+        String[] politiciansURLS = getResources().getStringArray(R.array.politicians_urls);
         String[] categoriesString = getResources().getStringArray(R.array.committee_english_names);
         categories = new Category[11];
         //==== create categories array ===//

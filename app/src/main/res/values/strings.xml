@@ -29,7 +29,7 @@
         <item>Technology</item>
     </string-array>
 
-    <string-array name="RSS_channels_URL">
+    <string-array name="rss_channels_urls">
         <item>https://dl.dropboxusercontent.com/u/14989930/knesset/finance.xml</item>
         <item>https://dl.dropboxusercontent.com/u/14989930/knesset/economics.xml</item>
         <item>https://dl.dropboxusercontent.com/u/14989930/knesset/knesset.xml</item>
@@ -49,7 +49,7 @@
         <item>טלפון</item>
     </string-array>
 
-    <string-array name="Politicians_URLS">
+    <string-array name="politicians_urls">
         <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_finance.json</item>
         <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_economy.json</item>
         <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_knesset.json</item>
@@ -62,6 +62,5 @@
         <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_women.json</item>
         <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_technology.json</item>
     </string-array>
-
 
 </resources>

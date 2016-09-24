@@ -55,12 +55,7 @@ public class AlertDialogFragmentClaimOptions extends DialogFragment{
         String topic = parent.post.getTopic();
 
         String templateContent = "";
-        //find and assign template content
-        for (int templatesIndex = 0; templatesIndex < parent.templates.size(); templatesIndex++){
-            if(parent.templates.get(templatesIndex).getCategory().equals(parent.post.getParentCategory())){
-                templateContent = parent.templates.get(templatesIndex).getContent();
-            }
-        }
+
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         String uriText = "mailto:" + Uri.encode(email) +

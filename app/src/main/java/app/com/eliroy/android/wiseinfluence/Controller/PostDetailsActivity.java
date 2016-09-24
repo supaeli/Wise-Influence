@@ -52,9 +52,9 @@ public class PostDetailsActivity extends FragmentActivity {
     /*
     * onClick for claim button
     * */
-    public void claimOption(View view) {
-        AlertDialogFragmentClaimOptions alertDialogFragmentClaimOptions = new AlertDialogFragmentClaimOptions();
-        alertDialogFragmentClaimOptions.show(fragmentManager,"Alert Dialog Fragment");
+    public void claimTemplateOptions(View view) {
+        AlertDialogTemplatesFeed alertDialogTemplatesFeed = new AlertDialogTemplatesFeed();
+        alertDialogTemplatesFeed.show(fragmentManager, "Alert Dialog Templates Feed Fragment");
     }
 
     /*

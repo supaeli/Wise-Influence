@@ -19,7 +19,6 @@ public class AlertDialogFragmentCategories extends DialogFragment {
                 .setItems(committeeNames, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String[] URLS = getResources().getStringArray(R.array.RSS_channels_URL);
 
                         PostsFeedActivity parent = (PostsFeedActivity) getActivity();
                         parent.reloadFeedWithCategory(parent.categories[i]);
