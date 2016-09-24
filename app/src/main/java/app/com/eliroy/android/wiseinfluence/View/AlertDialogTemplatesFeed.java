@@ -1,4 +1,4 @@
-package app.com.eliroy.android.wiseinfluence.Controller;
+package app.com.eliroy.android.wiseinfluence.View;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 
 import java.util.ArrayList;
 
+import app.com.eliroy.android.wiseinfluence.Controller.PostDetailsActivity;
 import app.com.eliroy.android.wiseinfluence.Model.Template;
 import app.com.eliroy.android.wiseinfluence.R;
 
@@ -24,8 +25,9 @@ public class AlertDialogTemplatesFeed extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 // TODO: 24/09/2016  start activity with template info
-
-
+                PostDetailsActivity parent = (PostDetailsActivity) getActivity();
+                Template template = parent.templates.get(i);
+                parent.onDialogSelectTemplate(dialogInterface, template);
             }
         }).create();
     }

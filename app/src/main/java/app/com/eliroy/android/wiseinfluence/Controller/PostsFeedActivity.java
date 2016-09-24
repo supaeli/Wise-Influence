@@ -20,6 +20,7 @@ import app.com.eliroy.android.wiseinfluence.Model.Template;
 import app.com.eliroy.android.wiseinfluence.R;
 import app.com.eliroy.android.wiseinfluence.Support.Network.ApiClient;
 import app.com.eliroy.android.wiseinfluence.Support.Network.CallBack;
+import app.com.eliroy.android.wiseinfluence.View.AlertDialogFragmentCategories;
 
 public class PostsFeedActivity extends FragmentActivity {
 

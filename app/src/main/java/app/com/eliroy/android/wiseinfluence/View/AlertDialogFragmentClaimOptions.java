@@ -1,4 +1,4 @@
-package app.com.eliroy.android.wiseinfluence.Controller;
+package app.com.eliroy.android.wiseinfluence.View;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import app.com.eliroy.android.wiseinfluence.Controller.PostDetailsActivity;
 import app.com.eliroy.android.wiseinfluence.Model.Politician;
 import app.com.eliroy.android.wiseinfluence.R;
 

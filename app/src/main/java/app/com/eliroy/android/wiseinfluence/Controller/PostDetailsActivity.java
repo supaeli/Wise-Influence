@@ -1,5 +1,6 @@
 package app.com.eliroy.android.wiseinfluence.Controller;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -7,7 +8,6 @@ import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,13 +19,14 @@ import app.com.eliroy.android.wiseinfluence.Model.Politician;
 import app.com.eliroy.android.wiseinfluence.Model.Post;
 import app.com.eliroy.android.wiseinfluence.Model.Template;
 import app.com.eliroy.android.wiseinfluence.R;
+import app.com.eliroy.android.wiseinfluence.View.AlertDialogTemplatesFeed;
 
 public class PostDetailsActivity extends FragmentActivity {
 
     FragmentManager fragmentManager = getSupportFragmentManager();
-    ArrayList<Politician> politicians;
-    ArrayList<Template> templates;
-    Post post;
+    public ArrayList<Politician> politicians;
+    public ArrayList<Template> templates;
+    public Post post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,5 +84,15 @@ public class PostDetailsActivity extends FragmentActivity {
             return Intent.createChooser(source, chooserTitle);
         }
     }
-        }
+    //=================== Actions ======================//
+
+    public void onDialogSelectTemplate(DialogInterface dialogInterface, Template template) {
+
+        Intent viewTemplateIntent = new Intent(PostDetailsActivity.this, TemplateDetailsActivity.class);
+        Bundle extras = new Bundle();
+        extras.putSerializable("TEMPLATE", template);
+        viewTemplateIntent.putExtras(extras);
+        startActivity(viewTemplateIntent);
+    }
+}
 
