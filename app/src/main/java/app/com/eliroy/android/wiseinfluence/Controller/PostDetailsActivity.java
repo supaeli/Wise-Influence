@@ -23,16 +23,16 @@ import app.com.eliroy.android.wiseinfluence.View.AlertDialogTemplatesFeed;
 
 public class PostDetailsActivity extends FragmentActivity {
 
-    FragmentManager fragmentManager = getSupportFragmentManager();
+    public FragmentManager fragmentManager = getSupportFragmentManager();
     public ArrayList<Politician> politicians;
     public ArrayList<Template> templates;
     public Post post;
+    public Template template;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
-        // TODO: 18/09/2016 take care of unchecked cast
         politicians = (ArrayList<Politician>)getIntent().getSerializableExtra("POLITICIANS");
         templates = (ArrayList<Template>)getIntent().getSerializableExtra("TEMPLATES");
         TextView topic_txt_view = (TextView) findViewById(R.id.topic_txt_view);
@@ -46,9 +46,7 @@ public class PostDetailsActivity extends FragmentActivity {
         content_txt_view.setText(post.getContent());
         //setter for Post instance, check later
         setTitle(post.getTopic());
-
     }
-
 
     /*
     * onClick for claim button
@@ -58,42 +56,22 @@ public class PostDetailsActivity extends FragmentActivity {
         alertDialogTemplatesFeed.show(fragmentManager, "Alert Dialog Templates Feed Fragment");
     }
 
-    /*
-    *
-    * */
-    public Intent createEmailIntentChooser(Intent source, CharSequence chooserTitle){
-        Stack<Intent> intents = new Stack<Intent>();
-        Intent i = new Intent(Intent.ACTION_SENDTO
-                , Uri.fromParts("mailto:","elay17@live.com",null));
-        List<ResolveInfo> activities = getPackageManager().queryIntentActivities(i, 0);
-
-        for(ResolveInfo resolveInfo : activities){
-            Intent target = new Intent(source);
-            //target = target.setPackage(); - study this one further
-            intents.add(target);
-        }
-
-        if(!intents.isEmpty()){
-            Intent chooserIntent = Intent.createChooser(intents.remove(0), chooserTitle);
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS
-                    , intents.toArray(new Parcelable[intents.size()]));
-
-            return chooserIntent;
-        }
-        else{
-            return Intent.createChooser(source, chooserTitle);
-        }
-    }
     //=================== Actions ======================//
 
     public void onDialogSelectTemplate(DialogInterface dialogInterface, Template template) {
 
+        this.template = template;
+    }
+
+    public void onDialogSelectPolitician(DialogInterface dialogInterface, Politician politician) {
+
         Intent viewTemplateIntent = new Intent(PostDetailsActivity.this, TemplateDetailsActivity.class);
         Bundle extras = new Bundle();
-        extras.putSerializable("TEMPLATE", template);
         extras.putSerializable("POST", post);
-        extras.putSerializable("POLITICIANS", politicians);
+        extras.putSerializable("TEMPLATE", template);
+        extras.putSerializable("POLITICIAN", politician);
         viewTemplateIntent.putExtras(extras);
+
         startActivity(viewTemplateIntent);
     }
 }

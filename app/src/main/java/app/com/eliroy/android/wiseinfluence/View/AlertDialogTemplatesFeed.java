@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 
 import java.util.ArrayList;
 
@@ -13,22 +14,21 @@ import app.com.eliroy.android.wiseinfluence.Controller.PostDetailsActivity;
 import app.com.eliroy.android.wiseinfluence.Model.Template;
 import app.com.eliroy.android.wiseinfluence.R;
 
-/**
- * Created by elay1_000 on 24/09/2016.
- */
 public class AlertDialogTemplatesFeed extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String[] templatesNames = getTemplatesNames();
-
         return new AlertDialog.Builder(getActivity()).setItems(templatesNames, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                // TODO: 24/09/2016  start activity with template info
                 PostDetailsActivity parent = (PostDetailsActivity) getActivity();
                 Template template = parent.templates.get(i);
                 parent.onDialogSelectTemplate(dialogInterface, template);
+
+                FragmentManager fragmentManager = parent.fragmentManager;
+                AlertDialogPoliticianFeed alertDialogPoliticianFeed = new AlertDialogPoliticianFeed();
+                alertDialogPoliticianFeed.show(fragmentManager,"Alert Dialog Politician Feed Fragment");
             }
         }).create();
     }

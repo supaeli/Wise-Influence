@@ -101,7 +101,6 @@ public class ApiClient {
                 String content = divs.size() > 2 ? divs.get(2).text() : "";
                 //======String manipulation - consider doing earlier=======//
                 int i = topic.indexOf(":");
-                // TODO: 18/09/2016 shorten if statements
                 if(i+2 < topic.length()){
                     topic = topic.substring(i+2);
                 }

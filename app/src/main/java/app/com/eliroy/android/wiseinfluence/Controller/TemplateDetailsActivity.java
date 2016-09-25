@@ -22,7 +22,7 @@ import app.com.eliroy.android.wiseinfluence.R;
  */
 public class TemplateDetailsActivity extends Activity {
 
-    private ArrayList<Politician> politicians;
+    private Politician politician;
     private Post post;
     private Template template;
 
@@ -36,7 +36,7 @@ public class TemplateDetailsActivity extends Activity {
 
         template = (Template)getIntent().getSerializableExtra("TEMPLATE");
         post = (Post)getIntent().getSerializableExtra("POST");
-        politicians = (ArrayList<Politician>)getIntent().getSerializableExtra("POLITICIANS");
+        politician = (Politician)getIntent().getSerializableExtra("POLITICIAN");
 
         if (post != null && post.getTopic() != null && post.getTopic().length() != 0) {
             String topic = "בנושא" + " " + post.getTopic();
@@ -49,7 +49,6 @@ public class TemplateDetailsActivity extends Activity {
     }
 
     public void onPhoneButtonClick(View view) {
-        Politician politician = getPolitician();
         if(politician == null || politician.getPhone() == null || politician.getPhone().length() == 0) {
             Toast.makeText(getApplicationContext(), "לא נמצא מספר טלפון לחבר הכנסת המבוקש", Toast.LENGTH_LONG).show();
         }
@@ -64,7 +63,6 @@ public class TemplateDetailsActivity extends Activity {
     }
 
     public void onFacebookButtonClick(View view) {
-        Politician politician = getPolitician();
 
         if (politician == null || politician.getFacebook() == null || politician.getFacebook().length() == 0){
             Toast.makeText(getApplicationContext(), "לא נמצא חשבון פייסבוק לחבר הכנסת המבוקש",Toast.LENGTH_LONG).show();
@@ -76,7 +74,6 @@ public class TemplateDetailsActivity extends Activity {
     }
 
     public void onMailButtonClick(View view) {
-        Politician politician = getPolitician();
 
         if (politician == null  || politician.getEmail() == null || post == null || post.getTopic() == null
                 || template == null  || template.getContent() == null ) {
@@ -100,13 +97,5 @@ public class TemplateDetailsActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "No email app found, lease install and try again", Toast.LENGTH_LONG).show();
             }
         }
-    }
-
-    private Politician getPolitician(){
-        if(politicians != null) {
-            Politician politician = politicians.size() > 0 ? politicians.get(0) : null;
-            return politician;
-        }
-        return null;
     }
 }
