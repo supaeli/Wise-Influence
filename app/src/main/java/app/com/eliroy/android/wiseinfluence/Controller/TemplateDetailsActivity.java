@@ -64,7 +64,7 @@ public class TemplateDetailsActivity extends Activity {
 
     public void onFacebookButtonClick(View view) {
 
-        if (politician == null || politician.getFacebook() == null || politician.getFacebook().length() == 0){
+        if (politician == null || politician.getFacebook() == null || politician.getFacebook().equals("null") || politician.getFacebook().length() == 0){
             Toast.makeText(getApplicationContext(), "לא נמצא חשבון פייסבוק לחבר הכנסת המבוקש",Toast.LENGTH_LONG).show();
         }
         else {

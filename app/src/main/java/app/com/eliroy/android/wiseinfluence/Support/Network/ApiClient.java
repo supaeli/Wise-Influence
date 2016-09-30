@@ -30,6 +30,7 @@ import app.com.eliroy.android.wiseinfluence.Model.Template;
  */
 public class ApiClient {
 
+    private final static String APP_TOKEN = "ASDGDFDCE1234214DVDV";
     private PostDownloadAsyncTask postTask;
     private PoliticianDownloadAsyncTask politicianTask;
     private TemplateDownloadAsyncTask templateTask;
