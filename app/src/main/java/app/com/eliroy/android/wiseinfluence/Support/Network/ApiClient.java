@@ -65,62 +65,28 @@ public class ApiClient {
         protected ArrayList<Post> doInBackground(Category... categories) {
 
             //enable debug here
-
-
-            Elements items = null;
-            ArrayList<Post> posts = new ArrayList<Post>();
-            String urlString = categories[0].getPostsURL();
-            Document doc = null;
-            Document innerDoc = null;
-            Element description = null;
-
+            ArrayList<Post> result = new ArrayList<Post>();
+            String urlString = "https://wise-influence-server.herokuapp.com/api/posts?app_token=" + APP_TOKEN + "&limit=100&category_name=" + categories[0].getEnglishName();
             try {
+                String jsonString = getJson(urlString);
+                JSONArray postsJSON = new JSONArray(jsonString);
 
-                doc = Jsoup.connect(urlString).get();
-
-
-            }
-            catch (IOException e) {
+                for (int i = 0; i < postsJSON.length(); i++) {
+                    JSONObject postJSON = postsJSON.getJSONObject(i);
+                    String topic = postJSON.getString("topic");
+                    String date = postJSON.getString("date");
+                    String content =postJSON.getString("content");
+                    Post post = new Post(topic, date, content);
+                    result.add(post);
+                }
+            } catch (JSONException e){
                 e.printStackTrace();
-                return null;//to prevent doc from being null(below)
+            }
+             catch (IOException e) {
+                e.printStackTrace();
             }
 
-            items = doc.getElementsByTag("item");
-
-            for (Element item : items){
-                //since there is always only 1 decsription tag on item tag:
-                description = item.getElementsByTag("description").first();
-                //set html on description
-                String desc = description.text().replace("<p>&#160;</p>","<p></p>");// unwanted tabs
-                desc =  desc.replace("<p style=\"text-align&#58;justify;\">&#160;</p>","<p></p>");
-                desc =  desc.replace("<p style=\"text-align&#58;center;\">&#160;</p>","<p></p>");
-                innerDoc = Jsoup.parse(desc);
-                Elements divs = innerDoc.body().getElementsByTag("div");
-                //=====map each div content to specific String==============//
-                String topic = divs.size() > 0 ? divs.get(0).text() : "";
-                String date = divs.size() > 1 ? divs.get(1).text() : "";
-                String content = divs.size() > 2 ? divs.get(2).text() : "";
-                //======String manipulation - consider doing earlier=======//
-                int i = topic.indexOf(":");
-                if(i+2 < topic.length()){
-                    topic = topic.substring(i+2);
-                }
-
-                i = date.indexOf(":");
-                if(i+2 < date.length()){
-                    date = date.substring(i+2);
-                }
-
-                i = content.indexOf(":");
-                if(i+2 < content.length()){
-                    content = content.substring(i+2);
-                }
-
-                String category = categories[0].getName();//not sure about it
-
-                posts.add(new Post(topic, date ,content,category));
-            }
-            return posts;
+            return result;
         }
 
         @Override
@@ -130,6 +96,39 @@ public class ApiClient {
                 return;
             }
             this.handler.handle(result);
+        }
+
+        private String getJson(String urlString) throws IOException {
+
+            String jsonString= null;
+
+            try {
+                URL url = new URL(urlString);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                InputStream is = connection.getInputStream();
+                //create here the json object from input stream
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        is, "UTF-8"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+
+
+                jsonString = sb.toString();
+                is.close();
+                // try parse the string to a JSON object
+
+
+            } catch (MalformedURLException e){
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return jsonString;
         }
     }
     //================================= load politicians info ============================//
@@ -146,19 +145,18 @@ public class ApiClient {
         protected ArrayList<Politician> doInBackground(Category... categories) {
 
             ArrayList<Politician> result = new ArrayList<Politician>();
+            String urlString = "https://wise-influence-server.herokuapp.com/api/politicians?app_token=" + APP_TOKEN + "&limit=20&category_name=" + categories[0].getEnglishName();
             try {
-                String jsonString = getJson(categories[0].getPoliticiansURL());
-
+                String jsonString = getJson(urlString);
                 JSONArray politiciansJSON = new JSONArray(jsonString);
 
                 for (int i = 0; i < politiciansJSON.length(); i++) {
                     JSONObject politicianJSON = politiciansJSON.getJSONObject(i);
-                    String name = politicianJSON.getString("first_name") + " " + politicianJSON.getString("last_name");
-                    String id = politicianJSON.getString("id");
+                    String name = politicianJSON.getString("name");
                     String email = politicianJSON.getString("email");
                     String facebook = politicianJSON.getString("facebook_url");
                     String phone = politicianJSON.getString("phone");
-                    Politician politician = new Politician(id, name, email, facebook, phone);
+                    Politician politician = new Politician(name, email, facebook, phone);
                     result.add(politician);
                 }
 
@@ -212,7 +210,6 @@ public class ApiClient {
 
     private class TemplateDownloadAsyncTask extends AsyncTask<String, String, ArrayList<Template>>{
 
-        private String url = "https://dl.dropboxusercontent.com/u/14989930/knesset/templates.json";
         private CallBack handler = null;
 
         public TemplateDownloadAsyncTask(CallBack handler){
@@ -224,18 +221,18 @@ public class ApiClient {
         protected ArrayList<Template> doInBackground(String... urls) {
 
             ArrayList<Template> result = new ArrayList<Template>();
+            String urlString = "https://wise-influence-server.herokuapp.com/api/templates?app_token=" + APP_TOKEN;
             try {
-                String jsonString = getJson(this.url);
+                String jsonString = getJson(urlString);
 
                 JSONArray templatesJSON = new JSONArray(jsonString);
 
                 for (int i = 0; i < templatesJSON.length(); i++) {
                     JSONObject templateJSON = templatesJSON.getJSONObject(i);
-                    String id = templateJSON.getString("id");
                     String name = templateJSON.getString("name");
                     String content = templateJSON.getString("content");
                     int likesCount = templateJSON.getInt("likes_count");
-                    Template template = new Template(id, name, content, likesCount);
+                    Template template = new Template(name, content, likesCount);
                     result.add(template);
                 }
 
