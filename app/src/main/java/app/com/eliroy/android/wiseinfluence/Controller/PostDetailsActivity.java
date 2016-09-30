@@ -19,6 +19,7 @@ import app.com.eliroy.android.wiseinfluence.Model.Politician;
 import app.com.eliroy.android.wiseinfluence.Model.Post;
 import app.com.eliroy.android.wiseinfluence.Model.Template;
 import app.com.eliroy.android.wiseinfluence.R;
+import app.com.eliroy.android.wiseinfluence.View.AlertDialogPoliticianFeed;
 import app.com.eliroy.android.wiseinfluence.View.AlertDialogTemplatesFeed;
 
 public class PostDetailsActivity extends FragmentActivity {
@@ -61,17 +62,21 @@ public class PostDetailsActivity extends FragmentActivity {
     public void onDialogSelectTemplate(DialogInterface dialogInterface, Template template) {
 
         this.template = template;
+        dialogInterface.dismiss();
+        AlertDialogPoliticianFeed alertDialogPoliticianFeed = new AlertDialogPoliticianFeed();
+        alertDialogPoliticianFeed.show(fragmentManager,"Alert Dialog Politician Feed Fragment");
     }
 
     public void onDialogSelectPolitician(DialogInterface dialogInterface, Politician politician) {
 
+        Log.v("DEBUG", politician.getName());
+        dialogInterface.dismiss();
         Intent viewTemplateIntent = new Intent(PostDetailsActivity.this, TemplateDetailsActivity.class);
         Bundle extras = new Bundle();
         extras.putSerializable("POST", post);
         extras.putSerializable("TEMPLATE", template);
         extras.putSerializable("POLITICIAN", politician);
         viewTemplateIntent.putExtras(extras);
-
         startActivity(viewTemplateIntent);
     }
 }

@@ -6,28 +6,23 @@ package app.com.eliroy.android.wiseinfluence.Model;
  * basic implementation: each committee name would symbolize a category name
  */
 public class Category {
-    private String name;// knesset, finance, economics, foreign affairs, internal affairs,
+    private String englishName;// knesset, finance, economics, foreign affairs, internal affairs,
     // huka, immigration, Education, labor, state control, women, science, drugs, children,
     // govInfo, urban, petitions, ethics, broadcast2015 govService, socialEquality.
-    String postsURL;
-    String politiciansURL;
+    private String hebrewName;
 
-    public Category(String name, String postsURL, String politiciansURL){
-        this.name = name;
-        this.postsURL = postsURL;
-        this.politiciansURL = politiciansURL;
+    public Category(String hebrewName, String englishName) {
 
+        this.hebrewName = hebrewName;
+        this.englishName = englishName;
     }
 
-    public String getName() {
-        return name;
+    public String getEnglishName() {
+        return englishName;
     }
 
-    public String getPostsURL() {
-        return postsURL;
-    }
-
-    public String getPoliticiansURL() {
-        return politiciansURL;
+    public String getHebrewName() {
+        return hebrewName;
     }
 }
+

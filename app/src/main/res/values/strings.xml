@@ -12,6 +12,7 @@
         <item>עבודה, רווחה ובריאות</item>
         <item>ענייני ביקורת המדינה</item>
         <item>קידום מעמד האישה</item>
+       <!--<item>חוקה</item>-->
         <item>מדע וטכנולוגיה</item>
     </string-array>
 
@@ -26,6 +27,7 @@
         <item>Labor</item>
         <item>Control</item>
         <item>Women</item>
+        <!--<item>Constitution</item>-->
         <item>Technology</item>
     </string-array>
 

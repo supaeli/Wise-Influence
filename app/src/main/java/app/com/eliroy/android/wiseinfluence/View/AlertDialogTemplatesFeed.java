@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -25,10 +26,6 @@ public class AlertDialogTemplatesFeed extends DialogFragment {
                 PostDetailsActivity parent = (PostDetailsActivity) getActivity();
                 Template template = parent.templates.get(i);
                 parent.onDialogSelectTemplate(dialogInterface, template);
-
-                FragmentManager fragmentManager = parent.fragmentManager;
-                AlertDialogPoliticianFeed alertDialogPoliticianFeed = new AlertDialogPoliticianFeed();
-                alertDialogPoliticianFeed.show(fragmentManager,"Alert Dialog Politician Feed Fragment");
             }
         }).create();
     }

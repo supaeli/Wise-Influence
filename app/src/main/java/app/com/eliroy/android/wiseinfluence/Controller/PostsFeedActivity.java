@@ -31,7 +31,7 @@ public class PostsFeedActivity extends FragmentActivity {
     private ArrayList<Template> templates;
 
 
-    FragmentManager fragmentManager = getSupportFragmentManager();// is this executed? the fragment parent issue
+    FragmentManager fragmentManager = getSupportFragmentManager();
 
     //====================== Lifecycle ================//
 
@@ -40,7 +40,6 @@ public class PostsFeedActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_feed);
         prepareCategories();
-        Log.v("DEBUG","" + categories[0].getName());
         reloadFeedWithCategory(categories[0]);
         loadTemplates();
     }
@@ -49,7 +48,6 @@ public class PostsFeedActivity extends FragmentActivity {
 
     public void reloadFeedWithCategory(Category category){
         final Context context = this;
-        Log.v("DEBUG","" + category.getName());
         CallBack<ArrayList<Post>> handler = new CallBack<ArrayList<Post>>() {
             @Override
             public void handle(final ArrayList<Post> result) {
@@ -97,13 +95,12 @@ public class PostsFeedActivity extends FragmentActivity {
     }
 
     private void prepareCategories() {
-        String[] postsURLS = getResources().getStringArray(R.array.rss_channels_urls);
-        String[] politiciansURLS = getResources().getStringArray(R.array.politicians_urls);
-        String[] categoriesString = getResources().getStringArray(R.array.committee_english_names);
+        String[] hebrewCategoriesString = getResources().getStringArray(R.array.committee_hebrew_names);
+        String[] englishCategoriesString = getResources().getStringArray(R.array.committee_english_names);
         categories = new Category[11];
         //==== create categories array ===//
-        for (int i = 0; i < postsURLS.length; i++){
-            categories[i] = new Category(categoriesString[i],postsURLS[i],politiciansURLS[i]);
+        for (int i = 0; i < hebrewCategoriesString.length; i++){
+            categories[i] = new Category(hebrewCategoriesString[i],englishCategoriesString[i]);
         }
     }
 
