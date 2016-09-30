@@ -14,6 +14,7 @@ public class Post implements Serializable{
     private String topic = "";
     private String content = "";
     private String date;
+    private String link;
     //remove later
     private String imgUrl;
     private String parentCategory;
@@ -28,12 +29,18 @@ public class Post implements Serializable{
         imgUrl = null;
     }
 
-    public Post(String topic, String date, String content, String parentCategory){
+    public Post(String topic, String date, String content, String parentCategory, String link){
         this.topic = topic;
         this.content = content;
         this.date = date;
         this.parentCategory = parentCategory;
+        this.link = link;
         imgUrl = null;
+    }
+
+    @Override
+    public String toString() {
+        return "{topic:\"" + getTopic() +"\", content:\"" + getContent() + "\", date:\"" + getDate() + "\", category_name:\"" + getParentCategory() +"\", link:\"" + getLink() + "\"}";
     }
 
     public String getTopic(){
@@ -58,6 +65,9 @@ public class Post implements Serializable{
     public String getPicURL(){
 
         return imgUrl;
+    }
+    public String getLink() {
+        return link;
     }
 
     public String getContent(){

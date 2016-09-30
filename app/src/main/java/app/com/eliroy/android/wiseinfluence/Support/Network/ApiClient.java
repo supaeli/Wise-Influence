@@ -11,9 +11,15 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -64,14 +70,13 @@ public class ApiClient {
 
             //enable debug here
 
-
             Elements items = null;
             ArrayList<Post> posts = new ArrayList<Post>();
             String urlString = categories[0].getPostsURL();
             Document doc = null;
             Document innerDoc = null;
             Element description = null;
-
+            Element link = null;
             try {
 
                 doc = Jsoup.connect(urlString).get();
@@ -87,6 +92,8 @@ public class ApiClient {
 
             for (Element item : items){
                 //since there is always only 1 decsription tag on item tag:
+                link = item.getElementsByTag("link").first();
+                String linkStr = link.text();
                 description = item.getElementsByTag("description").first();
                 //set html on description
                 String desc = description.text().replace("<p>&#160;</p>","<p></p>");// unwanted tabs
@@ -96,8 +103,10 @@ public class ApiClient {
                 Elements divs = innerDoc.body().getElementsByTag("div");
                 //=====map each div content to specific String==============//
                 String topic = divs.size() > 0 ? divs.get(0).text() : "";
+                topic = topic.replace("\"","\\\"");
                 String date = divs.size() > 1 ? divs.get(1).text() : "";
                 String content = divs.size() > 2 ? divs.get(2).text() : "";
+                content = content.replace("\"","\\\"");
                 //======String manipulation - consider doing earlier=======//
                 int i = topic.indexOf(":");
                 // TODO: 18/09/2016 shorten if statements
@@ -117,8 +126,9 @@ public class ApiClient {
 
                 String category = categories[0].getName();//not sure about it
 
-                posts.add(new Post(topic, date ,content,category));
+                posts.add(new Post(topic, date ,content,category,linkStr));
             }
+
             return posts;
         }
 
@@ -128,6 +138,7 @@ public class ApiClient {
                 Log.e("DEBUG","result is null");
                 return;
             }
+            String str = result.toString();
             this.handler.handle(result);
         }
     }
