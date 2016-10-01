@@ -18,13 +18,15 @@ import app.com.eliroy.android.wiseinfluence.Model.Template;
 import app.com.eliroy.android.wiseinfluence.R;
 
 /**
- * Created by elay1_000 on 24/09/2016.
+ * Display the template before contact method is decided (e.g. facebook, email).
  */
 public class TemplateDetailsActivity extends Activity {
 
     private Politician politician;
     private Post post;
     private Template template;
+
+    //====================== Lifecycle ================//
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,8 @@ public class TemplateDetailsActivity extends Activity {
             contentTextView.setText(template.getContent());
         }
     }
+
+    //====================== Actions ================//
 
     public void onPhoneButtonClick(View view) {
         if(politician == null || politician.getPhone() == null || politician.getPhone().length() == 0) {

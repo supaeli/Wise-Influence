@@ -2,25 +2,23 @@ package app.com.eliroy.android.wiseinfluence.Controller;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
-
 import app.com.eliroy.android.wiseinfluence.Model.Politician;
 import app.com.eliroy.android.wiseinfluence.Model.Post;
 import app.com.eliroy.android.wiseinfluence.Model.Template;
 import app.com.eliroy.android.wiseinfluence.R;
 import app.com.eliroy.android.wiseinfluence.View.AlertDialogPoliticianFeed;
 import app.com.eliroy.android.wiseinfluence.View.AlertDialogTemplatesFeed;
+
+/*
+* Display the selected post full info
+* */
 
 public class PostDetailsActivity extends FragmentActivity {
 
@@ -29,6 +27,8 @@ public class PostDetailsActivity extends FragmentActivity {
     public ArrayList<Template> templates;
     public Post post;
     public Template template;
+
+    //====================== Lifecycle ================//
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +49,6 @@ public class PostDetailsActivity extends FragmentActivity {
         setTitle(post.getTopic());
     }
 
-    /*
-    * onClick for claim button
-    * */
-    public void claimTemplateOptions(View view) {
-        AlertDialogTemplatesFeed alertDialogTemplatesFeed = new AlertDialogTemplatesFeed();
-        alertDialogTemplatesFeed.show(fragmentManager, "Alert Dialog Templates Feed Fragment");
-    }
-
-    //=================== Actions ======================//
-
     public void onDialogSelectTemplate(DialogInterface dialogInterface, Template template) {
 
         this.template = template;
@@ -78,6 +68,16 @@ public class PostDetailsActivity extends FragmentActivity {
         extras.putSerializable("POLITICIAN", politician);
         viewTemplateIntent.putExtras(extras);
         startActivity(viewTemplateIntent);
+    }
+
+    //=================== Actions ======================//
+
+    /*
+     * onClick for claim button
+     * */
+    public void claimTemplateOptions(View view) {
+        AlertDialogTemplatesFeed alertDialogTemplatesFeed = new AlertDialogTemplatesFeed();
+        alertDialogTemplatesFeed.show(fragmentManager, "Alert Dialog Templates Feed Fragment");
     }
 }
 

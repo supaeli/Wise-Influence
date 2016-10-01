@@ -2,13 +2,10 @@ package app.com.eliroy.android.wiseinfluence.Model;
 
 
 /**
- * decribes the categories to choose such as yoker hamihia etc.
- * basic implementation: each committee name would symbolize a category name
+ * describing the different committees, reflects user preferences
  */
 public class Category {
-    private String englishName;// knesset, finance, economics, foreign affairs, internal affairs,
-    // huka, immigration, Education, labor, state control, women, science, drugs, children,
-    // govInfo, urban, petitions, ethics, broadcast2015 govService, socialEquality.
+    private String englishName;
     private String hebrewName;
 
     public Category(String hebrewName, String englishName) {
@@ -20,7 +17,9 @@ public class Category {
     public String getEnglishName() {
         return englishName;
     }
-
+    /*
+    * use later version
+    * */
     public String getHebrewName() {
         return hebrewName;
     }

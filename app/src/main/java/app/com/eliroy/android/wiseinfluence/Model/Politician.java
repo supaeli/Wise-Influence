@@ -1,10 +1,9 @@
 package app.com.eliroy.android.wiseinfluence.Model;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 /**
- * Created by elay1_000 on 16/08/2016.
+ * describing politician, full name and contact info
  */
 public class Politician implements Serializable{
     private String name;

@@ -3,16 +3,12 @@ package app.com.eliroy.android.wiseinfluence.Controller;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import java.util.ArrayList;
-
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-
 import app.com.eliroy.android.wiseinfluence.Model.Category;
 import app.com.eliroy.android.wiseinfluence.Model.Politician;
 import app.com.eliroy.android.wiseinfluence.Model.Post;
@@ -22,15 +18,17 @@ import app.com.eliroy.android.wiseinfluence.Support.Network.ApiClient;
 import app.com.eliroy.android.wiseinfluence.Support.Network.CallBack;
 import app.com.eliroy.android.wiseinfluence.View.AlertDialogFragmentCategories;
 
+/*
+* Display a scrollable list of committee relevant info. Each post on list displays
+* only highlight info.
+* */
+
 public class PostsFeedActivity extends FragmentActivity {
 
     private ApiClient client = new ApiClient();
     private ArrayList<Politician> politicians;
-    //consider make local
     public  Category[] categories;
     private ArrayList<Template> templates;
-
-
     FragmentManager fragmentManager = getSupportFragmentManager();
 
     //====================== Lifecycle ================//
@@ -72,6 +70,7 @@ public class PostsFeedActivity extends FragmentActivity {
                 );
             }
         };
+
         client.reloadPostWithCategory(category, handler);
         loadPoliticians(category);
     }
@@ -113,6 +112,4 @@ public class PostsFeedActivity extends FragmentActivity {
         AlertDialogFragmentCategories alertDialogFragmentCategories = new AlertDialogFragmentCategories();
         alertDialogFragmentCategories.show(fragmentManager,"Alert Dialog Fragment");
     }
-
-
 }
