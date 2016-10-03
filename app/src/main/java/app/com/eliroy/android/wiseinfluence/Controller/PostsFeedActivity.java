@@ -1,8 +1,11 @@
 package app.com.eliroy.android.wiseinfluence.Controller;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -47,10 +50,15 @@ public class PostsFeedActivity extends FragmentActivity {
 
     public void reloadFeedWithCategory(Category category){
         final Context context = this;
+        final ProgressDialog progressBar = new ProgressDialog(context);
+        progressBar.setTitle("טוען...");
+
         CallBack<ArrayList<Post>> handler = new CallBack<ArrayList<Post>>() {
             @Override
             public void handle(final ArrayList<Post> result) {
-                CustomAdapter adapter = new CustomAdapter(context, R.layout.list_item_template,result);
+                // hide loader
+                progressBar.hide();
+                PostsFeedCustomAdapter adapter = new PostsFeedCustomAdapter(context, R.layout.list_item_template,result);
                 ListView feedList = (ListView) findViewById(R.id.feed_list_view);
                 feedList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();//update data on adapter
@@ -71,7 +79,8 @@ public class PostsFeedActivity extends FragmentActivity {
                 );
             }
         };
-
+        // show activity loader (check term)
+        progressBar.show();
         client.reloadPostWithCategory(category, handler);
         loadPoliticians(category);
     }

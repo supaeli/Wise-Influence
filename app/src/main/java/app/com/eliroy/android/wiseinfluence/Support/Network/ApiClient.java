@@ -1,5 +1,6 @@
 package app.com.eliroy.android.wiseinfluence.Support.Network;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -138,6 +139,7 @@ public class ApiClient {
     private class PoliticianDownloadAsyncTask extends AsyncTask<Category, String, ArrayList<Politician>>{
 
         private CallBack handler = null;
+        private ProgressDialog progressDialog;
 
         public PoliticianDownloadAsyncTask(CallBack handler){
             this.handler = handler;
