@@ -78,7 +78,7 @@ public class TemplateDetailsActivity extends Activity {
         else {
             Intent facebookIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(politician.getFacebook()));
             //copying the selected template to phone's clipboard
-            String facebookMessage = post.getTopic() + " " +template.getContent();
+            String facebookMessage = "בנושא: " + post.getTopic() + "\n\n" +template.getContent();
 
             ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("Facebook Post", facebookMessage);
@@ -99,7 +99,7 @@ public class TemplateDetailsActivity extends Activity {
             String topic = post.getTopic();
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
             String uriText = "mailto:" + Uri.encode(politician.getEmail()) +
-                    "?subject=" + Uri.encode(topic) +
+                    "?subject=" + Uri.encode("בנושא: " + topic) +
                     "&body=" + Uri.encode(template.getContent());
             Uri uri = Uri.parse(uriText);
             emailIntent.setData(uri);
