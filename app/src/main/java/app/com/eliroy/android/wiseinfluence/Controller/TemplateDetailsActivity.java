@@ -77,11 +77,12 @@ public class TemplateDetailsActivity extends Activity {
         }
         else {
             Intent facebookIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(politician.getFacebook()));
-//copying the selected template to phone's clipboard
+            //copying the selected template to phone's clipboard
             Uri.encode(template.getContent());
             String topic = post.getTopic();
             String uriText = Uri.encode(topic)+ Uri.encode(template.getContent());
-            Uri uri = Uri.parse(uriText);
+            //Uri uri = Uri.parse(uriText);
+            uriText = post.getTopic() + " " +template.getContent();
 
             ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("Facebook Post", uriText);
