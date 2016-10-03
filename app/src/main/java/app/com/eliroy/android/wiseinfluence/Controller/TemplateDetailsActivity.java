@@ -3,13 +3,17 @@ package app.com.eliroy.android.wiseinfluence.Controller;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.ClipboardManager;
+import android.content.ClipData;
 
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import app.com.eliroy.android.wiseinfluence.Model.Politician;
@@ -73,6 +77,17 @@ public class TemplateDetailsActivity extends Activity {
         }
         else {
             Intent facebookIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(politician.getFacebook()));
+//copying the selected template to phone's clipboard
+            Uri.encode(template.getContent());
+            String topic = post.getTopic();
+            String uriText = Uri.encode(topic)+ Uri.encode(template.getContent());
+            Uri uri = Uri.parse(uriText);
+
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Facebook Post", uriText);
+            clipboard.setPrimaryClip(clip);
+
+            startActivity(facebookIntent);
             startActivity(facebookIntent);
         }
     }
