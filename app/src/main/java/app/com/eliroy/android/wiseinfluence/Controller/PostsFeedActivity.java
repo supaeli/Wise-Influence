@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import java.util.ArrayList;
 import android.support.v4.app.FragmentActivity;
@@ -111,5 +112,10 @@ public class PostsFeedActivity extends FragmentActivity {
     public void showCategoriesListView(View view) {
         AlertDialogFragmentCategories alertDialogFragmentCategories = new AlertDialogFragmentCategories();
         alertDialogFragmentCategories.show(fragmentManager,"Alert Dialog Fragment");
+    }
+
+    public void setButtonText(String committeeName) {
+        Button button = (Button)findViewById(R.id.btn);
+        button.setText(committeeName);
     }
 }
