@@ -78,17 +78,13 @@ public class TemplateDetailsActivity extends Activity {
         else {
             Intent facebookIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(politician.getFacebook()));
             //copying the selected template to phone's clipboard
-            Uri.encode(template.getContent());
-            String topic = post.getTopic();
-            String uriText = Uri.encode(topic)+ Uri.encode(template.getContent());
-            //Uri uri = Uri.parse(uriText);
-            uriText = post.getTopic() + " " +template.getContent();
+            String facebookMessage = post.getTopic() + " " +template.getContent();
 
             ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("Facebook Post", uriText);
+            ClipData clip = ClipData.newPlainText("Facebook Post", facebookMessage);
             clipboard.setPrimaryClip(clip);
 
-            startActivity(facebookIntent);
+            Toast.makeText(getApplicationContext(), "הטקסט הועתק, יש להדביקו בהודעה", Toast.LENGTH_LONG).show();
             startActivity(facebookIntent);
         }
     }
