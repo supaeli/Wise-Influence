@@ -28,41 +28,13 @@
         <item>Control</item>
         <item>Women</item>
         <!--<item>Constitution</item>-->
-        <item>Technology</item>
-    </string-array>
-
-    <string-array name="rss_channels_urls">
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/finance.xml</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/economics.xml</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/knesset.xml</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/security.xml</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/enviorment.xml</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/immigration.xml</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/education.xml</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/labor.xml</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/statecontrol.xml</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/Women.xml</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/Science.xml</item>
+        <item>Science</item>
     </string-array>
 
     <string-array name="claim_options">
         <item>מייל</item>
         <item>פייסבוק</item>
         <item>טלפון</item>
-    </string-array>
-
-    <string-array name="politicians_urls">
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_finance.json</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_economy.json</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_knesset.json</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_external.json</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_internal.json</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_immigration.json</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_education.json</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_labor.json</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_control.json</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_women.json</item>
-        <item>https://dl.dropboxusercontent.com/u/14989930/knesset/politicians/politicians_technology.json</item>
     </string-array>
 
 </resources>
