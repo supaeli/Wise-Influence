@@ -51,7 +51,7 @@ public class ApiClient {
         templateTask.execute();
     }
 
-    //============================ load posts to listview ==============================//
+    //============================ load posts to ListView ==============================//
 
     private class PostDownloadAsyncTask extends AsyncTask<Category,Void, ArrayList<Post>> {
 
@@ -63,6 +63,8 @@ public class ApiClient {
 
         @Override
         protected ArrayList<Post> doInBackground(Category... categories) {
+
+
 
             //enable debug here
             ArrayList<Post> result = new ArrayList<Post>();

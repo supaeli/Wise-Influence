@@ -16,12 +16,12 @@ import app.com.eliroy.android.wiseinfluence.R;
  * Helper class for ListView implementation, defines how each 'cell' would look like
  * and how info is pushed into the list
  */
-public class CustomAdapter extends ArrayAdapter<Post> {
+public class PostsFeedCustomAdapter extends ArrayAdapter<Post> {
 
     private Activity myContext;
     private ArrayList<Post> data;
 
-    public CustomAdapter(Context context, int resource, ArrayList<Post> objects) {
+    public PostsFeedCustomAdapter(Context context, int resource, ArrayList<Post> objects) {
         super(context, resource, objects);
         myContext = (Activity) context;
         data = objects;
