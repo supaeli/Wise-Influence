@@ -18,6 +18,7 @@ public class AlertDialogFragmentCategories extends DialogFragment {
         final String[] committeeNames = getResources().getStringArray(R.array.committee_hebrew_names);
 
         return new AlertDialog.Builder(getActivity())
+                .setTitle("בחירת קטגוריה")
                 .setItems(committeeNames, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

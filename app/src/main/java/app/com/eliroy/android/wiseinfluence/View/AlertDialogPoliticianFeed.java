@@ -22,7 +22,9 @@ public class AlertDialogPoliticianFeed extends DialogFragment{
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         String[] politiciansNames = getPoliticiansNames();
-        return new AlertDialog.Builder(getActivity()).setItems(politiciansNames, new DialogInterface.OnClickListener() {
+        return new AlertDialog.Builder(getActivity())
+                .setTitle("בחירת ח\"כ")
+                .setItems(politiciansNames, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 PostDetailsActivity parent = (PostDetailsActivity) getActivity();

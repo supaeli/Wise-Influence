@@ -20,7 +20,9 @@ public class AlertDialogTemplatesFeed extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String[] templatesNames = getTemplatesNames();
-        return new AlertDialog.Builder(getActivity()).setItems(templatesNames, new DialogInterface.OnClickListener() {
+        return new AlertDialog.Builder(getActivity())
+                .setTitle("בחירת תבנית לפנייה")
+                .setItems(templatesNames, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 PostDetailsActivity parent = (PostDetailsActivity) getActivity();
