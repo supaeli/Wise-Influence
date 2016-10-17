@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Wise Influence</string>
+    <string name="app_name">בוחר חכם</string>
 
     <string-array name="committee_hebrew_names">
         <item>כספים</item>
