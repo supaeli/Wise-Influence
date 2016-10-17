@@ -59,7 +59,6 @@ public class PostDetailsActivity extends FragmentActivity {
 
     public void onDialogSelectPolitician(DialogInterface dialogInterface, Politician politician) {
 
-        Log.v("DEBUG", politician.getName());
         dialogInterface.dismiss();
         Intent viewTemplateIntent = new Intent(PostDetailsActivity.this, TemplateDetailsActivity.class);
         Bundle extras = new Bundle();
